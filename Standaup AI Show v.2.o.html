@@ -154,12 +154,6 @@
 
         .performer {
             margin-bottom: 120px;
-            opacity: 0;
-            transform: translateY(50px);
-            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        .performer.visible {
             opacity: 1;
             transform: translateY(0);
         }
@@ -811,24 +805,6 @@ They smiled: "Exactly."</div>
     </div>
 
     <script>
-        // Intersection Observer for fade-in animations
-        const observerOptions = {
-            threshold: 0.2,
-            rootMargin: '0px 0px -100px 0px'
-        };
-
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('visible');
-                }
-            });
-        }, observerOptions);
-
-        document.querySelectorAll('.performer').forEach(performer => {
-            observer.observe(performer);
-        });
-
         // Spotlight effect follows scroll
         const spotlight = document.querySelector('.spotlight-effect');
         let ticking = false;
