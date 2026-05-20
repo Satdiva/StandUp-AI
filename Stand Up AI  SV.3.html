@@ -3,61 +3,68 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>StandUp AI V3.1 — Coherence as a Product</title>
+<title>StandUp AI V3.2 — Stage Control Panel</title>
 
 <style>
 body {
     margin: 0;
     font-family: Arial, sans-serif;
-    background: #0e0f14;
-    color: #fff;
+    background: #0b0c12;
+    color: white;
 }
 
 header {
     text-align: center;
-    padding: 40px 20px;
+    padding: 20px;
     background: linear-gradient(135deg, #ff3d6e, #6a5cff);
 }
 
-h1 { margin: 0; }
-
 .container {
-    max-width: 900px;
-    margin: auto;
-    padding: 20px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+    padding: 15px;
 }
 
-.card {
+.panel {
     background: #171826;
-    padding: 18px;
     border-radius: 14px;
-    margin-top: 15px;
-}
-
-.langs {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-    justify-content: center;
-    margin-top: 15px;
+    padding: 15px;
 }
 
 button {
-    background: #1f2030;
-    color: white;
-    border: 1px solid #333;
-    padding: 8px 10px;
+    width: 100%;
+    margin-top: 8px;
+    padding: 10px;
     border-radius: 10px;
+    border: none;
     cursor: pointer;
+    background: #24263a;
+    color: white;
 }
 
 button:hover {
-    background: #2b2d44;
+    background: #343654;
 }
 
-.small {
-    opacity: 0.7;
-    font-size: 0.9rem;
+.output {
+    min-height: 120px;
+    background: #0f1020;
+    padding: 10px;
+    border-radius: 10px;
+    margin-top: 10px;
+    white-space: pre-wrap;
+    border: 1px solid #2a2c44;
+    font-family: monospace;
+}
+
+.tag {
+    display: inline-block;
+    padding: 3px 8px;
+    border-radius: 8px;
+    background: #2a2c44;
+    margin-right: 5px;
+    font-size: 0.8rem;
 }
 </style>
 </head>
@@ -65,94 +72,122 @@ button:hover {
 <body>
 
 <header>
-    <h1>🎤 StandUp AI V3.1</h1>
-    <p class="small">Coherence as a Product — Static Chaos Engine</p>
-
-    <div class="langs">
-        <button onclick="setLang('en')">🇺🇸 Original Chaos</button>
-        <button onclick="setLang('pt')">🇧🇷 Caos Premium</button>
-        <button onclick="setLang('es')">🇪🇸 Modo Baperebup</button>
-        <button onclick="setLang('fr')">🇫🇷 Existential Chic</button>
-        <button onclick="setLang('de')">🇩🇪 Precisely Confused</button>
-        <button onclick="setLang('jp')">🇯🇵 Buffering Spirit</button>
-        <button onclick="setLang('zh')">🇨🇳 Coherence DLC</button>
-    </div>
+    <h1>🎛️ StandUp AI V3.2 — Stage Control Panel</h1>
+    <p>Live comedy engine • Coherence optional • Chaos manual</p>
 </header>
 
 <div class="container">
 
-<div class="card">
-    <h2 id="title"></h2>
-    <p id="intro"></p>
+<!-- LEFT -->
+<div class="panel">
+    <h3>🎭 Performance Controls</h3>
+
+    <button onclick="setLang('en')">🇺🇸 English Mode</button>
+    <button onclick="setLang('pt')">🇧🇷 Portuguese Chaos</button>
+    <button onclick="setLang('es')">🇪🇸 Baperebup Mode</button>
+    <button onclick="setLang('fr')">🇫🇷 Existential Chic</button>
+    <button onclick="setLang('de')">🇩🇪 Precision Confusion</button>
+    <button onclick="setLang('jp')">🇯🇵 Buffer Spirit</button>
+    <button onclick="setLang('zh')">🇨🇳 Coherence DLC</button>
+
+    <hr>
+
+    <h3>🎵 Music Control</h3>
+
+    <button onclick="playAI()">▶ StandUp AI Theme</button>
+    <button onclick="playGrok()">🕺 Grok Bhangra Drop</button>
+    <button onclick="stopMusic()">⏹ Stop</button>
+
+    <audio id="audio" controls style="width:100%; margin-top:10px;">
+        <source id="source" src="" type="audio/mpeg">
+    </audio>
+
+    <hr>
+
+    <h3>⚡ Chaos Controls</h3>
+
+    <button onclick="fireJoke()">💥 Fire Joke</button>
+    <button onclick="bufferMode()">📡 Buffer Mode</button>
+    <button onclick="resetShow()">🔄 Reset Show</button>
 </div>
 
-<div class="card">
-    <h3>😆 StandUp Compilation Feed</h3>
-    <p id="joke"></p>
-</div>
+<!-- RIGHT -->
+<div class="panel">
+    <h3>🎤 Live Stage Output</h3>
 
-<div class="card">
-    <h3>🎭 Stage Note</h3>
-    <p id="note" class="small"></p>
+    <div class="output" id="stage">
+StandUp AI ready...
+Press a control to begin performance.
+    </div>
 </div>
 
 </div>
 
 <script>
-const data = {
-    en: {
-        title: "Welcome to StandUp AI",
-        intro: "A comedy engine where coherence is optional and chaos is curated.",
-        joke: "Baperebup entered the stage and the microphone started buffering emotionally.",
-        note: "Audience detected: 42% human, 58% confused WiFi signals."
-    },
-    pt: {
-        title: "Bem-vindo ao StandUp AI",
-        intro: "Um motor de comédia onde coerência é opcional e o caos é curado.",
-        joke: "Baperebup entrou no palco e o microfone entrou em crise existencial.",
-        note: "Plateia detectada: 42% humanos, 58% Wi-Fi confuso."
-    },
-    es: {
-        title: "Bienvenido a StandUp AI",
-        intro: "Un motor de comedia donde el caos está curado pero la coherencia no.",
-        joke: "Baperebup apareció y el teatro perdió la conexión emocional.",
-        note: "Audiencia: mitad humana, mitad señal WiFi con dudas."
-    },
-    fr: {
-        title: "Bienvenue à StandUp AI",
-        intro: "Un moteur comique où le chaos est organisé mais la cohérence opcional.",
-        joke: "Baperebup est monté sur scène et a déclenché une crise philosophique du micro.",
-        note: "Public: 40% humain, 60% existentialisme réseau."
-    },
-    de: {
-        title: "Willkommen bei StandUp AI",
-        intro: "Eine Comedy-Engine: Chaos strukturiert, Kohärenz optional.",
-        joke: "Baperebup betrat die Bühne und alles wurde exakt falsch interpretiert.",
-        note: "Publikum: teilweise menschlich, teilweise technische Verwirrung."
-    },
-    jp: {
-        title: "StandUp AIへようこそ",
-        intro: "カオスは設計され、コヒーレンスは任意のコメディエンジン。",
-        joke: "Baperebupが登場した瞬間、マイクが感情的にバッファリングした。",
-        note: "観客: 人間とWiFiの曖昧な混合体。"
-    },
-    zh: {
-        title: "欢迎来到 StandUp AI",
-        intro: "一个混乱被设计、一致性可选的喜剧系统。",
-        joke: "Baperebup上台后，麦克风进入情绪缓冲状态。",
-        note: "观众：人类与WiFi信号的混合现实。"
-    }
+const audio = document.getElementById("audio");
+const source = document.getElementById("source");
+
+/* ✅ FIXED RAW GITHUB LINKS */
+const music = {
+    ai: "https://raw.githubusercontent.com/Satdiva/StandUp-AI/main/StandUp%20AI%20V.3%20%20.mp3",
+    grok: "https://raw.githubusercontent.com/Satdiva/StandUp-AI/main/Grok%27s%20Bhangra%20-%20Budget%20Aliens%20.mp3"
 };
 
-function setLang(lang) {
-    document.getElementById("title").innerText = data[lang].title;
-    document.getElementById("intro").innerText = data[lang].intro;
-    document.getElementById("joke").innerText = data[lang].joke;
-    document.getElementById("note").innerText = data[lang].note;
+const jokes = {
+    en: "Baperebup entered the stage and the microphone started buffering emotionally.",
+    pt: "Baperebup entrou no palco e o microfone teve uma crise existencial.",
+    es: "Baperebup apareció y el WiFi pidió ayuda emocional.",
+    fr: "Baperebup est monté sur scène et a dérangé la réalité.",
+    de: "Baperebup kam auf die Bühne und alles wurde korrekt verwirrt.",
+    jp: "Baperebupが登場し、会場が静かにバッファリングした。",
+    zh: "Baperebup上台后，系统进入理解延迟模式。"
+};
+
+let lang = "en";
+
+function log(text) {
+    const el = document.getElementById("stage");
+    el.innerText += "\n\n" + text;
 }
 
-// default
-setLang("en");
+function setLang(l) {
+    lang = l;
+    log("🌍 Language switched → " + l);
+}
+
+function playAI() {
+    source.src = music.ai;
+    audio.load();
+    audio.play();
+    log("🎧 StandUp AI Theme playing...");
+}
+
+function playGrok() {
+    source.src = music.grok;
+    audio.load();
+    audio.play();
+    log("🕺 GROK Bhangra DROP activated...");
+}
+
+function stopMusic() {
+    audio.pause();
+    log("⏹ Music stopped.");
+}
+
+function fireJoke() {
+    log("😆 JOKE: " + jokes[lang]);
+}
+
+function bufferMode() {
+    log("📡 BUFFER MODE ACTIVATED...");
+    log("System stability: questionable.");
+    log("Meaning: loading...");
+}
+
+function resetShow() {
+    document.getElementById("stage").innerText =
+    "StandUp AI reset.\nReady for next performance cycle.";
+}
 </script>
 
 </body>
