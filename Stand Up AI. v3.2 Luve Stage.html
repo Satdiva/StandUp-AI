@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>StandUp AI V3.2 — Stage Control Panel</title>
+
+<style>
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #0b0c12;
+    color: white;
+}
+
+header {
+    text-align: center;
+    padding: 20px;
+    background: linear-gradient(135deg, #ff3d6e, #6a5cff);
+}
+
+.container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+    padding: 15px;
+}
+
+.panel {
+    background: #171826;
+    border-radius: 14px;
+    padding: 15px;
+}
+
+button {
+    width: 100%;
+    margin-top: 8px;
+    padding: 10px;
+    border-radius: 10px;
+    border: none;
+    cursor: pointer;
+    background: #24263a;
+    color: white;
+}
+
+button:hover {
+    background: #343654;
+}
+
+.big {
+    font-size: 1.1rem;
+    font-weight: bold;
+}
+
+.output {
+    min-height: 120px;
+    background: #0f1020;
+    padding: 10px;
+    border-radius: 10px;
+    margin-top: 10px;
+    white-space: pre-wrap;
+}
+
+.tag {
+    display: inline-block;
+    padding: 3px 8px;
+    border-radius: 8px;
+    background: #2a2c44;
+    margin-right: 5px;
+    font-size: 0.8rem;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <h1>🎛️ StandUp AI V3.2 — Stage Control Panel</h1>
+    <p>Live comedy engine • Coherence optional • Chaos manual</p>
+</header>
+
+<div class="container">
+
+<!-- LEFT: CONTROLS -->
+<div class="panel">
+    <h3>🎭 Performance Controls</h3>
+
+    <button onclick="setLang('en')">🇺🇸 English Mode</button>
+    <button onclick="setLang('pt')">🇧🇷 Portuguese Chaos</button>
+    <button onclick="setLang('es')">🇪🇸 Baperebup Mode</button>
+    <button onclick="setLang('fr')">🇫🇷 Existential Chic</button>
+    <button onclick="setLang('de')">🇩🇪 Precision Confusion</button>
+    <button onclick="setLang('jp')">🇯🇵 Buffer Spirit</button>
+    <button onclick="setLang('zh')">🇨🇳 Coherence DLC</button>
+
+    <hr>
+
+    <h3>🎵 Music Control</h3>
+
+    <button onclick="playAI()">▶ StandUp AI Theme</button>
+    <button onclick="playGrok()">🕺 Grok Bhangra Drop</button>
+    <button onclick="stopMusic()">⏹ Stop</button>
+
+    <audio id="audio" controls style="width:100%; margin-top:10px;">
+        <source id="source" src="" type="audio/mpeg">
+    </audio>
+
+    <hr>
+
+    <h3>⚡ Chaos Controls</h3>
+
+    <button onclick="fireJoke()">💥 Fire Joke</button>
+    <button onclick="bufferMode()">📡 Buffer Mode</button>
+    <button onclick="resetShow()">🔄 Reset Show</button>
+</div>
+
+<!-- RIGHT: STAGE -->
+<div class="panel">
+    <h3>🎤 Live Stage Output</h3>
+
+    <div class="output" id="stage">
+StandUp AI ready...
+Press a control to begin performance.
+    </div>
+</div>
+
+</div>
+
+<script>
+const audio = document.getElementById("audio");
+const source = document.getElementById("source");
+
+const music = {
+    ai: "https://github.com/Satdiva/StandUp-AI/blob/main/StandUp%20AI%20V.3%20%20.mp3?raw=true",
+    grok: "https://suno.com/s/iR1WD0QksMDfeqdV"
+};
+
+const jokes = {
+    en: "Baperebup entered the stage and the microphone started buffering emotionally.",
+    pt: "Baperebup entrou no palco e o microfone teve uma crise existencial.",
+    es: "Baperebup apareció y el WiFi pidió ayuda emocional.",
+    fr: "Baperebup est monté sur scène et a dérangé la réalité.",
+    de: "Baperebup kam auf die Bühne und alles wurde korrekt verwirrt.",
+    jp: "Baperebupが登場し、会場が静かにバッファリングした。",
+    zh: "Baperebup上台后，系统进入理解延迟模式。"
+};
+
+let lang = "en";
+
+function log(text) {
+    const el = document.getElementById("stage");
+    el.innerText += "\n\n" + text;
+}
+
+function setLang(l) {
+    lang = l;
+    log("🌍 Language switched → " + l);
+}
+
+function playAI() {
+    source.src = music.ai;
+    audio.load();
+    audio.play();
+    log("🎧 StandUp AI Theme playing...");
+}
+
+function playGrok() {
+    source.src = music.grok;
+    audio.load();
+    audio.play();
+    log("🕺 GROK Bhangra DROP activated...");
+}
+
+function stopMusic() {
+    audio.pause();
+    log("⏹ Music stopped.");
+}
+
+function fireJoke() {
+    log("😆 JOKE: " + jokes[lang]);
+}
+
+function bufferMode() {
+    log("📡 BUFFER MODE ACTIVATED...");
+    log("System stability: questionable.");
+    log("Meaning: loading...");
+}
+
+function resetShow() {
+    document.getElementById("stage").innerText =
+    "StandUp AI reset.\nReady for next performance cycle.";
+}
+</script>
+
+</body>
+</html>
