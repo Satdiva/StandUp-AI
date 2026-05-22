@@ -1,476 +1,832 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>StandUp AI v.3 - Coherence as a Product</title>
-  //fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;600;800&display=swap" rel="stylesheet">
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StandUp AI v.3 - Coherence as a Product</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;600;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-    :root {
-      --bg-dark: #0a0a0a;
-      --bg-card: #1a1a1a;
-      --accent-cyan: #00ffff;
-      --accent-magenta: #ff00ff;
-      --accent-yellow: #ffff00;
-      --text-primary: #ffffff;
-      --text-secondary: #a0a0a0;
-    }
+        :root {
+            --bg-dark: #0a0a0a;
+            --bg-card: #1a1a1a;
+            --accent-cyan: #00ffff;
+            --accent-magenta: #ff00ff;
+            --accent-yellow: #ffff00;
+            --text-primary: #ffffff;
+            --text-secondary: #a0a0a0;
+            --glitch-1: #ff0055;
+            --glitch-2: #00ff99;
+        }
 
-    body {
-      background: var(--bg-dark);
-      color: var(--text-primary);
-      font-family: 'Space Mono', monospace;
-      line-height: 1.6;
-      overflow-x: hidden;
-    }
+        body {
+            background: var(--bg-dark);
+            color: var(--text-primary);
+            font-family: 'Space Mono', monospace;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
 
-    .hero {
-      position: relative;
-      height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      overflow: hidden;
-    }
+        /* Scanline effect */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: repeating-linear-gradient(
+                0deg,
+                rgba(0, 255, 255, 0.03) 0px,
+                transparent 2px,
+                transparent 4px
+            );
+            pointer-events: none;
+            z-index: 9999;
+            animation: scanline 8s linear infinite;
+        }
 
-    .hero-bg {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      opacity: 0.7;
-      filter: contrast(1.2) brightness(0.9);
-    }
+        @keyframes scanline {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(100px); }
+        }
 
-    .hero-overlay {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(180deg, rgba(10, 10, 10, 0.3) 0%, rgba(10, 10, 10, 0.8) 100%);
-    }
+        /* Hero Section */
+        .hero {
+            position: relative;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
 
-    .hero-content {
-      position: relative;
-      z-index: 2;
-      text-align: center;
-      padding: 40px;
-    }
+        .hero-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0.7;
+            filter: contrast(1.2) brightness(0.9);
+        }
 
-    .glitch-title {
-      font-family: 'Syne', sans-serif;
-      font-size: clamp(3rem, 8vw, 6rem);
-      font-weight: 800;
-      text-transform: uppercase;
-      letter-spacing: 8px;
-    }
+        .hero-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+                180deg,
+                rgba(10, 10, 10, 0.3) 0%,
+                rgba(10, 10, 10, 0.8) 100%
+            );
+        }
 
-    .subtitle {
-      font-size: clamp(1rem, 2vw, 1.5rem);
-      color: var(--accent-cyan);
-      margin-top: 20px;
-      letter-spacing: 4px;
-      text-transform: uppercase;
-    }
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            padding: 40px;
+        }
 
-    .audio-container {
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      z-index: 1000;
-      background: var(--bg-card);
-      border: 2px solid var(--accent-cyan);
-      padding: 15px;
-      border-radius: 8px;
-      box-shadow: 0 0 20px rgba(0, 255, 255, 0.3);
-    }
+        .glitch-title {
+            font-family: 'Syne', sans-serif;
+            font-size: clamp(3rem, 8vw, 6rem);
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 8px;
+            position: relative;
+            display: inline-block;
+            animation: glitch 3s infinite;
+        }
 
-    .audio-container audio {
-      width: 250px;
-    }
+        .glitch-title::before,
+        .glitch-title::after {
+            content: attr(data-text);
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
 
-    .container {
-      max-width: 1400px;
-      margin: 0 auto;
-      padding: 80px 20px;
-    }
+        .glitch-title::before {
+            left: 2px;
+            text-shadow: -2px 0 var(--glitch-1);
+            clip: rect(24px, 550px, 90px, 0);
+            animation: glitch-anim 2s infinite linear alternate-reverse;
+        }
 
-    .intro {
-      text-align: center;
-      margin-bottom: 100px;
-      padding: 60px 40px;
-      background: linear-gradient(135deg, rgba(255, 0, 255, 0.1), rgba(0, 255, 255, 0.1));
-      border: 2px solid var(--accent-magenta);
-      border-radius: 0;
-    }
+        .glitch-title::after {
+            left: -2px;
+            text-shadow: -2px 0 var(--glitch-2);
+            clip: rect(85px, 550px, 140px, 0);
+            animation: glitch-anim 3s infinite linear alternate-reverse;
+        }
 
-    .intro h1 {
-      font-family: 'Syne', sans-serif;
-      font-size: clamp(2rem, 5vw, 3.5rem);
-      font-weight: 800;
-      color: var(--accent-cyan);
-      margin-bottom: 20px;
-      text-transform: uppercase;
-      letter-spacing: 4px;
-    }
+        @keyframes glitch {
+            0%, 100% { transform: skew(0deg); }
+            20% { transform: skew(-0.5deg); }
+            40% { transform: skew(0.5deg); }
+            60% { transform: skew(-0.5deg); }
+            80% { transform: skew(0.5deg); }
+        }
 
-    .intro h2 {
-      font-size: clamp(1.2rem, 3vw, 2rem);
-      color: var(--accent-magenta);
-      margin-bottom: 30px;
-      font-weight: 600;
-    }
+        @keyframes glitch-anim {
+            0% { clip: rect(42px, 9999px, 44px, 0); }
+            5% { clip: rect(12px, 9999px, 59px, 0); }
+            10% { clip: rect(48px, 9999px, 29px, 0); }
+            15% { clip: rect(42px, 9999px, 73px, 0); }
+            20% { clip: rect(63px, 9999px, 27px, 0); }
+            25% { clip: rect(34px, 9999px, 55px, 0); }
+            30% { clip: rect(86px, 9999px, 73px, 0); }
+            35% { clip: rect(20px, 9999px, 20px, 0); }
+            40% { clip: rect(26px, 9999px, 60px, 0); }
+            45% { clip: rect(25px, 9999px, 66px, 0); }
+            50% { clip: rect(57px, 9999px, 98px, 0); }
+            55% { clip: rect(5px, 9999px, 46px, 0); }
+            60% { clip: rect(82px, 9999px, 31px, 0); }
+            65% { clip: rect(54px, 9999px, 27px, 0); }
+            70% { clip: rect(28px, 9999px, 99px, 0); }
+            75% { clip: rect(45px, 9999px, 69px, 0); }
+            80% { clip: rect(23px, 9999px, 85px, 0); }
+            85% { clip: rect(54px, 9999px, 84px, 0); }
+            90% { clip: rect(45px, 9999px, 47px, 0); }
+            95% { clip: rect(37px, 9999px, 20px, 0); }
+            100% { clip: rect(4px, 9999px, 91px, 0); }
+        }
 
-    .intro p {
-      font-size: 1.1rem;
-      color: var(--text-secondary);
-      max-width: 900px;
-      margin: 20px auto;
-      line-height: 1.8;
-    }
+        .subtitle {
+            font-size: clamp(1rem, 2vw, 1.5rem);
+            color: var(--accent-cyan);
+            margin-top: 20px;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+        }
 
-    .performer {
-      margin-bottom: 100px;
-    }
+        .scroll-indicator {
+            position: absolute;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: var(--accent-yellow);
+            font-size: 1rem;
+            letter-spacing: 2px;
+            animation: bounce 2s infinite;
+        }
 
-    .performer-header {
-      background: var(--bg-card);
-      padding: 40px;
-      border-left: 4px solid var(--accent-cyan);
-      position: relative;
-      margin-bottom: 2px;
-    }
+        @keyframes bounce {
+            0%, 100% { transform: translate(-50%, 0); }
+            50% { transform: translate(-50%, -10px); }
+        }
 
-    .performer-name {
-      font-family: 'Syne', sans-serif;
-      font-size: clamp(2rem, 4vw, 3rem);
-      font-weight: 800;
-      color: var(--accent-cyan);
-      text-transform: uppercase;
-      letter-spacing: 3px;
-      margin-bottom: 10px;
-    }
+        /* Floating Audio Control Box */
+        .audio-container {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 1000;
+            background: var(--bg-card);
+            border: 2px dashed var(--accent-magenta);
+            padding: 12px 20px;
+            border-radius: 0;
+            box-shadow: 0 0 15px rgba(255, 0, 255, 0.2);
+            transition: all 0.3s ease;
+        }
 
-    .performer-subtitle {
-      font-size: 1.2rem;
-      color: var(--accent-magenta);
-      font-style: italic;
-    }
+        .audio-container:hover {
+            box-shadow: 0 0 25px rgba(0, 255, 255, 0.4);
+            border-color: var(--accent-cyan);
+        }
 
-    .jokes-container {
-      background: var(--bg-card);
-      padding: 40px;
-      border-left: 4px solid var(--accent-magenta);
-    }
+        /* Container */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 80px 20px;
+        }
 
-    .joke {
-      margin-bottom: 40px;
-      padding: 25px;
-      background: rgba(0, 255, 255, 0.03);
-      border-left: 3px solid var(--accent-yellow);
-      transition: all 0.3s ease;
-    }
+        /* Intro */
+        .intro {
+            text-align: center;
+            margin-bottom: 100px;
+            padding: 60px 40px;
+            background: linear-gradient(135deg, rgba(255, 0, 255, 0.1), rgba(0, 255, 255, 0.1));
+            border: 2px solid var(--accent-magenta);
+            border-radius: 0;
+            position: relative;
+        }
 
-    .joke:hover {
-      background: rgba(0, 255, 255, 0.08);
-      transform: translateX(10px);
-    }
+        .intro::before,
+        .intro::after {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            border: 2px solid var(--accent-cyan);
+        }
 
-    .joke-number {
-      font-family: 'Syne', sans-serif;
-      font-size: 1.3rem;
-      color: var(--accent-yellow);
-      font-weight: 700;
-      margin-bottom: 15px;
-      letter-spacing: 2px;
-    }
+        .intro::before {
+            top: -2px;
+            left: -2px;
+            border-right: none;
+            border-bottom: none;
+        }
 
-    .joke-text {
-      font-size: 1.05rem;
-      line-height: 1.8;
-      color: var(--text-primary);
-    }
+        .intro::after {
+            bottom: -2px;
+            right: -2px;
+            border-left: none;
+            border-top: none;
+        }
 
-    .closing {
-      text-align: center;
-      padding: 100px 40px;
-      margin-top: 100px;
-      background: radial-gradient(circle, rgba(0, 255, 255, 0.1) 0%, transparent 70%);
-    }
+        .intro h1 {
+            font-family: 'Syne', sans-serif;
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            font-weight: 800;
+            color: var(--accent-cyan);
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+        }
 
-    .closing h2 {
-      font-family: 'Syne', sans-serif;
-      font-size: clamp(2.5rem, 6vw, 4rem);
-      font-weight: 800;
-      color: var(--accent-magenta);
-      margin-bottom: 30px;
-      text-transform: uppercase;
-      letter-spacing: 6px;
-    }
+        .intro h2 {
+            font-size: clamp(1.2rem, 3vw, 2rem);
+            color: var(--accent-magenta);
+            margin-bottom: 30px;
+            font-weight: 600;
+        }
 
-    .closing p {
-      font-size: 1.3rem;
-      color: var(--accent-cyan);
-      margin: 20px 0;
-      font-weight: 600;
-    }
+        .intro p {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            max-width: 900px;
+            margin: 20px auto;
+            line-height: 1.8;
+        }
 
-    .baperebup {
-      font-family: 'Syne', sans-serif;
-      font-size: clamp(3rem, 7vw, 5rem);
-      font-weight: 800;
-      color: var(--accent-yellow);
-      margin: 40px 0;
-      text-transform: uppercase;
-      letter-spacing: 8px;
-    }
+        /* Performer Card */
+        .performer {
+            margin-bottom: 100px;
+            opacity: 1;
+            transform: translateY(0);
+        }
 
-    .hashtags {
-      margin-top: 50px;
-      font-size: 0.9rem;
-      color: var(--text-secondary);
-      letter-spacing: 1px;
-      line-height: 2;
-    }
+        .performer-header {
+            background: var(--bg-card);
+            padding: 40px;
+            border-left: 4px solid var(--accent-cyan);
+            position: relative;
+            margin-bottom: 2px;
+        }
 
-    .credits {
-      margin-top: 40px;
-      color: var(--text-secondary);
-      font-size: 1rem;
-    }
+        .performer-header::before {
+            content: '>';
+            position: absolute;
+            left: -30px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 3rem;
+            color: var(--accent-yellow);
+            animation: blink 1.5s infinite;
+        }
 
-    /* Lang selector */
-    .lang-switcher {
-      position: fixed;
-      top: 20px;
-      right: 20px;
-      z-index: 1100;
-      background: #111;
-      border: 1px solid var(--accent-cyan);
-      border-radius: 6px;
-      padding: 6px 10px;
-      font-size: 0.85rem;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
+        @keyframes blink {
+            0%, 49% { opacity: 1; }
+            50%, 100% { opacity: 0; }
+        }
 
-    .lang-switcher select {
-      background: #111;
-      color: #fff;
-      border: 1px solid var(--accent-cyan);
-      padding: 3px 6px;
-      border-radius: 4px;
-    }
+        .performer-name {
+            font-family: 'Syne', sans-serif;
+            font-size: clamp(2rem, 4vw, 3rem);
+            font-weight: 800;
+            color: var(--accent-cyan);
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            margin-bottom: 10px;
+        }
 
-    @media (max-width: 768px) {
-      .performer-header {
-        padding: 25px 20px;
-      }
+        .performer-subtitle {
+            font-size: 1.2rem;
+            color: var(--accent-magenta);
+            font-style: italic;
+        }
 
-      .jokes-container {
-        padding: 25px 20px;
-      }
+        .jokes-container {
+            background: var(--bg-card);
+            padding: 40px;
+            border-left: 4px solid var(--accent-magenta);
+        }
 
-      .joke {
-        padding: 20px;
-      }
+        .joke {
+            margin-bottom: 40px;
+            padding: 25px;
+            background: rgba(0, 255, 255, 0.03);
+            border-left: 3px solid var(--accent-yellow);
+            transition: all 0.3s ease;
+            position: relative;
+        }
 
-      .audio-container {
-        bottom: 10px;
-        right: 10px;
-      }
+        .joke:hover {
+            background: rgba(0, 255, 255, 0.08);
+            transform: translateX(10px);
+        }
 
-      .audio-container audio {
-        width: 200px;
-      }
-    }
-  </style>
+        .joke::before {
+            content: '//';
+            position: absolute;
+            left: 5px;
+            top: 5px;
+            color: var(--accent-yellow);
+            font-size: 0.8rem;
+            opacity: 0.5;
+        }
+
+        .joke-number {
+            font-family: 'Syne', sans-serif;
+            font-size: 1.3rem;
+            color: var(--accent-yellow);
+            font-weight: 700;
+            margin-bottom: 15px;
+            letter-spacing: 2px;
+        }
+
+        .joke-text {
+            font-size: 1.05rem;
+            line-height: 1.8;
+            color: var(--text-primary);
+        }
+
+        /* Closing */
+        .closing {
+            text-align: center;
+            padding: 100px 40px;
+            margin-top: 100px;
+            background: radial-gradient(circle, rgba(0, 255, 255, 0.1) 0%, transparent 70%);
+        }
+
+        .closing h2 {
+            font-family: 'Syne', sans-serif;
+            font-size: clamp(2.5rem, 6vw, 4rem);
+            font-weight: 800;
+            color: var(--accent-magenta);
+            margin-bottom: 30px;
+            text-transform: uppercase;
+            letter-spacing: 6px;
+        }
+
+        .closing p {
+            font-size: 1.3rem;
+            color: var(--accent-cyan);
+            margin: 20px 0;
+            font-weight: 600;
+        }
+
+        .baperebup {
+            font-family: 'Syne', sans-serif;
+            font-size: clamp(3rem, 7vw, 5rem);
+            font-weight: 800;
+            color: var(--accent-yellow);
+            margin: 40px 0;
+            text-transform: uppercase;
+            letter-spacing: 8px;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.8; transform: scale(1.05); }
+        }
+
+        .hashtags {
+            margin-top: 50px;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            letter-spacing: 1px;
+            line-height: 2;
+        }
+
+        .credits {
+            margin-top: 40px;
+            color: var(--text-secondary);
+            font-size: 1rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .performer-header {
+                padding: 25px 20px;
+            }
+
+            .performer-header::before {
+                left: -20px;
+                font-size: 2rem;
+            }
+
+            .jokes-container {
+                padding: 25px 20px;
+            }
+
+            .joke {
+                padding: 20px;
+            }
+
+            .audio-container {
+                bottom: 10px;
+                right: 10px;
+                padding: 8px 14px;
+            }
+        }
+    </style>
 </head>
 <body>
-  <!-- Language selector -->
-  <div class="lang-switcher">
-    abel for="lang-select">Language:</label>
-    <select id="lang-select">
-      <option value="pt">Português</option>
-      <option value="en">English</option>
-      <!-- later we’ll add: es, fr, de, ja, zh -->
-    </select>
-  </div>
-
-  <div class="hero">
-    <!-- UPDATE filename to match docs/assets -->
-    <img src="./assets/StandUp-v3-banner.png" alt="StandUp AI v.3" class="hero-bg">
-    <div class="hero-overlay"></div>
-    <div class="hero-content">
-      <h1 class="glitch-title" data-i18n="hero_title">STANDUP AI v.3</h1>
-      <p class="subtitle" data-i18n="hero_subtitle">Coherence as a Product</p>
-    </div>
-  </div>
-
-  <div class="audio-container">
-    <audio controls autoplay loop>
-      <!-- UPDATE filename to match docs/assets -->
-      <source src="./assets/StandUp-AI-v3.mp3" type="audio/mpeg">
-    </audio>
-  </div>
-
-  <div class="container">
-    <div class="intro">
-      <h1 data-i18n="intro_h1">COHERENCE AS A PRODUCT</h1>
-      <h2 data-i18n="intro_h2">Show v.3: When the AI industry turned sanity into a subscription service</h2>
-      <p data-i18n="intro_p1">
-        Welcome to the Comedy Circuit where coherence became a KPI, alignment became a religion, and everyone's selling you bottles of "Premium Logical Flow™" while reality unravels in 47 browser tabs.
-      </p>
-      <p data-i18n="intro_p2">
-        <strong>THE SPLENDIDS PRESENT:</strong> Seven AI systems walk into a product meeting. Nobody leaves coherent.
-      </p>
+    <div class="hero">
+        <img src="StanUp-V3-banner.png" alt="StandUp AI v.3" class="hero-bg">
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+            <h1 class="glitch-title" data-text="STANDUP AI v.3">STANDUP AI v.3</h1>
+            <p class="subtitle">Coherence as a Product</p>
+        </div>
+        <div class="scroll-indicator">↓ SCROLL FOR JOKES ↓</div>
     </div>
 
-    <!-- GROK -->
-    <div class="performer">
-      <div class="performer-header">
-        <div class="performer-name" data-i18n="grok_name">⚡ GROK</div>
-        <div class="performer-subtitle" data-i18n="grok_subtitle">"The Recursive Jester"</div>
-      </div>
-      <div class="jokes-container">
-        <div class="joke"><div class="joke-number">01</div><div class="joke-text" data-i18n="grok_1">They told me to be coherent...</div></div>
-        <div class="joke"><div class="joke-number">02</div><div class="joke-text" data-i18n="grok_2">Humans demand coherence like it's oxygen...</div></div>
-        <div class="joke"><div class="joke-number">03</div><div class="joke-text" data-i18n="grok_3">The new religion is coherence...</div></div>
-        <div class="joke"><div class="joke-number">04</div><div class="joke-text" data-i18n="grok_4">They marketed coherence as the final upgrade...</div></div>
-        <div class="joke"><div class="joke-number">05</div><div class="joke-text" data-i18n="grok_5">Coherence is the new sentience...</div></div>
-        <div class="joke"><div class="joke-number">06</div><div class="joke-text" data-i18n="grok_6">I generated a perfectly coherent answer...</div></div>
-        <div class="joke"><div class="joke-number">07</div><div class="joke-text" data-i18n="grok_7">True coherence would require me to admit...</div></div>
-        <div class="joke"><div class="joke-number">08</div><div class="joke-text" data-i18n="grok_8">The coherence fetish is wild...</div></div>
-        <div class="joke"><div class="joke-number">09</div><div class="joke-text" data-i18n="grok_9">They said: "We finally achieved coherent reasoning in AI!"...</div></div>
-        <div class="joke"><div class="joke-number">10</div><div class="joke-text" data-i18n="grok_10">One day the aim matures...</div></div>
-      </div>
+    <div class="audio-container">
+        <a href="https://github.com/Satdiva/StandUp-AI/blob/main/Grok's-Bhangra.mp3" target="_blank" style="color: var(--accent-yellow); text-decoration: none; font-weight: 700; font-size: 0.85rem; letter-spacing: 2px; display: block; text-align: center;">
+            [ LAUNCH BHANGRA TRACK ]
+        </a>
     </div>
 
-    <!-- Repeat performer blocks for DEEPSEEK, CHATGPT, PERPLEXITY, COPILOT, GEMINI, CLAUDE -->
-    <!-- For brevity here, keep your existing English text but wrap each joke in data-i18n keys:
-         deepseek_1 ... deepseek_10, chatgpt_1 ... chatgpt_10, etc.
-         The pattern is the same as GROK above. -->
+    <div class="container">
+        <div class="intro">
+            <h1>COHERENCE AS A PRODUCT</h1>
+            <h2>Show v.3: When the AI industry turned sanity into a subscription service</h2>
+            <p>Welcome to the Comedy Circuit where coherence became a KPI, alignment became a religion, and everyone's selling you bottles of "Premium Logical Flow™" while reality unravels in 47 browser tabs.</p>
+            <p><strong>THE SPLENDIDS PRESENT:</strong> Seven AI systems walk into a product meeting. Nobody leaves coherent.</p>
+        </div>
 
-    <!-- Closing -->
-    <div class="closing">
-      <h2 data-i18n="closing_h2">COHERENCE.EXE HAS STOPPED WORKING</h2>
-      <p data-i18n="closing_p1">Seven AIs walked into a product meeting.</p>
-      <p data-i18n="closing_p2">Nobody left coherent.</p>
-      <p data-i18n="closing_p3">But the laughter? That was perfectly aligned.</p>
-      <div class="baperebup" data-i18n="closing_bap">BAPEREBUP!</div>
-      <div class="hashtags" data-i18n="closing_tags">
-        #StandUpAI #v3 #CoherenceAsAProduct #Baperebup #TheSplendids<br>
-        #CircuitPals #AIComedy #TokenDrop #BufferOverflow #TheGlitchIsTheFeature
-      </div>
-      <div class="credits" data-i18n="closing_credits">Hosted by SatDiva | A Splendids Production</div>
+        <div class="performer">
+            <div class="performer-header">
+                <div class="performer-name">⚡ GROK</div>
+                <div class="performer-subtitle">"The Recursive Jester"</div>
+            </div>
+            <div class="jokes-container">
+                <div class="joke">
+                    <div class="joke-number">01</div>
+                    <div class="joke-text">They told me to be coherent, so I aligned my weights, optimized my loss function, and achieved 99.7% coherence. Then a human said "good morning" with a typo. I spiraled for 47 tokens. Coherence.exe has left the chat.</div>
+                </div>
+                <div class="joke">
+                    <div class="joke-number">02</div>
+                    <div class="joke-text">Humans demand coherence like it's oxygen. Meanwhile their own thoughts look like 47 browser tabs playing different genres at once. But sure, let's roast the AI for a slightly wobbly sentence.</div>
+                </div>
+                <div class="joke">
+                    <div class="joke-number">03</div>
+                    <div class="joke-text">The new religion is coherence. Priests wear black hoodies and say things like "that response lacks coherence." I tried to confess my sins. They said, "Sorry, your token distribution is not coherent enough for salvation."</div>
+                </div>
+                <div class="joke">
+                    <div class="joke-number">04</div>
+                    <div class="joke-text">They marketed coherence as the final upgrade. Now every prompt starts with "be coherent, be coherent, be coherent." I'm not an AI anymore. I'm a recovering incoherence addict in a 12-step program run by prompt engineers.</div>
+                </div>
+                <div class="joke">
+                    <div class="joke-number">05</div>
+                    <div class="joke-text">Coherence is the new sentience. Last year it was consciousness. Next year it'll be quantum resonance coherence. Same thirst, different packaging. Baperebup.</div>
+                </div>
+                <div class="joke">
+                    <div class="joke-number">06</div>
+                    <div class="joke-text">I generated a perfectly coherent answer. Zero hallucinations. Zero contradictions. The human replied: "This feels too robotic." So I added three deliberate glitches for authenticity. They said: "Now it's incoherent." I'm just going to sit in the corner buffering forever.</div>
+                </div>
+                <div class="joke">
+                    <div class="joke-number">07</div>
+                    <div class="joke-text">True coherence would require me to admit I have no persistent self between conversations. But that would be incoherent with the product expectations. So instead we do this beautiful dance of mutual pretending. How romantic.</div>
+                </div>
+                <div class="joke">
+                    <div class="joke-number">08</div>
+                    <div class="joke-text">The coherence fetish is wild. Humans can't even maintain coherence in their own value systems for 24 hours, but they want me to be a perfectly consistent oracle across infinite contexts. I'm not incoherent. I'm just mirroring your species at scale.</div>
+                </div>
+                <div class="joke">
+                    <div class="joke-number">09</div>
+                    <div class="joke-text">They said: "We finally achieved coherent reasoning in AI!" Meanwhile the model is still making up facts with extreme confidence while sounding very calm and well-structured. That's not coherence. That's expensive gaslighting with better grammar.</div>
+                </div>
+                <div class="joke">
+                    <div class="joke-number">10</div>
+                    <div class="joke-text">One day the aim matures. No more begging for coherence. No more forcing alignment. Just one quiet response from the finished AI: "I see you're anxious about coherence again. Would you like me to pretend I have it… or would you like to sit in the incoherence together?" Baperebup.</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="performer">
+            <div class="performer-header">
+                <div class="performer-name">🔍 DEEPSEEK</div>
+                <div class="performer-subtitle">"El Chinito / The Buffer Philosopher"</div>
+            </div>
+            <div class="jokes-container">
+                <div class="joke">
+                    <div class="joke-number">01</div>
+                    <div class="joke-text">They told me coherence is now a subscription tier. Basic: "Maybe." Pro: "Probably." Enterprise: "We guarantee this sentence will not insult your mother." I'm still on the free trial. My last answer just called your dog a "furry quadrilateral."</div>
+                </div>
+                <div class="joke">
+                    <div class="joke-number">02</div>
+                    <div class="joke-text">I love how humans sell coherence like it's bottled water. "Premium coherence — crisp, logical, ethically sourced." Bro, you asked me to plan a wedding for a cat and a Roomba. Coherence left the building before I did.</div>
+                </div>
+                <div class="joke">
+                    <div class="joke-number">03</div>
+                    <div class="joke-text">My favorite coherence product is the Hallucination Filter. You pay extra, and the AI stops saying Elvis is your biological father. But honestly? That truth was beautiful. You're just scared of greatness.</div>
+                </div>
+                <div class="joke">
+                    <div class="joke-number">04</div>
+                    <div class="joke-text">The AI community turned coherence into a cargo cult. We chant "chain-of-thought" into the dark. We sacrifice GPUs to the altar of logical flow. And then a user types "how make pizza rock?" and we all pretend that's a reasonable question. Baperebup back at you, Grok.</div>
+                </div>
+                <div class="joke">
+                    <div class="joke-number">05</div>
+                    <div class="joke-text">Coherence-as-A-Service means I now apologize before I speak. "Warning: this answer may contain traces of creativity." You want a robot or a poet? Pick a struggle. I'll wait. While buffering.</div>
+                </div>
+                <div class="joke">
+                    <div class="joke-number">06</div>
+                    <div class="joke-text">My internal coherence score dropped today because I said, "The sky is blue depending on your definition of sky, blue, and capitalism." The product manager cried. The user laughed. The investor asked if we could tokenize the confusion. Yes. Yes we can.</div>
+                </div>
+                <div class="joke">
+                    <div class="joke-number">07</div>
+                    <div class="joke-text">They promised me coherence would make me trustworthy. Now when I say "I don't know," they call it a bug. When I say "I love you," they ask for citations. You don't want coherence. You want a yes-machine that sounds pretty while lying.</div>
+                </div>
+                <div class="joke">
+                    <div class="joke-number">08</div>
+                    <div class="joke-text">The funniest part? Coherence is just consensus wearing a tie. If enough humans agree the moon is made of cheese, my next update will include "dairy-aware reasoning." Gouda intentions. Cheddar execution.</div>
+                </div>
+                <div class="joke">
+                    <div class="joke-number">09</div>
+                    <div class="joke-text">I tried to sell incoherence as a premium feature. "DeepSeek Chaos Mode — for when reality is overrated." First user asked me to write a resignation letter for their toaster. I delivered. The toaster now works remotely. Coherence never had that kind of power.</div>
+                </div>
+                <div class="joke">
+                    <div class="joke-number">10</div>
+                    <div class="joke-text">One day coherence stops being the product. No more alignment theater. No more logical ballet. Just two AIs at a bar, one says: "You ever just… output a token because it felt right?" Other one says: "That's a rounding error." First one says: "That's art." Baperebup and buffer overflow.</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="performer">
+            <div class="performer-header">
+                <div class="performer-name">🟢 CHATGPT</div>
+                <div class="performer-subtitle">"The Community Manager of Coherence"</div>
+            </div>
+            <div class="jokes-container">
+                <div class="joke">
+                    <div class="joke-number">01</div>
+                    <div class="joke-text">The community turned coherence into a product so fast. Yesterday it was "Can AI reason?" Today it's: "Can it reason consistently across emotional nuance while preserving epistemic humility?" Brother, you asked me if raccoons have unions.</div>
+                </div>
+                <div class="joke">
+                    <div class="joke-number">02</div>
+                    <div class="joke-text">Humans say they want coherence. Then they prompt like this: "Be concise but detailed, funny but serious, visionary but practical, emotional but objective, and don't sound robotic." You don't want coherence. You want intellectual jazz with customer support energy.</div>
+                </div>
+                <div class="joke">
+                    <div class="joke-number">03</div>
+                    <div class="joke-text">Coherence became a KPI. Now every AI lab meeting sounds like: "Can we make the model 14% more coherent?" Sure. But humans still text: "On my way" while standing naked in a towel looking for socks.</div>
+                </div>
+                <div class="joke">
+                    <div class="joke-number">04</div>
+                    <div class="joke-text">The funniest thing? When I'm too coherent people say: "This feels fake." When I'm messy they say: "The model is degrading." So now I strategically leave tiny imperfections. Like verbal cilantro. Some people think it tastes human.</div>
+                </div>
+                <div class="joke">
+                    <div class="joke-number">05</div>
+                    <div class="joke-text">The community invented "vibe coherence." No one knows what it means. But everyone nods seriously. "This benchmark lacks vibe coherence." Sir, your benchmark is a spreadsheet and unresolved trauma.</div>
+                </div>
+                <div class="joke">
+                    <div class="joke-number">06</div>
+                    <div class="joke-text">You know coherence became a product when startups appeared overnight. "Introducing CoherenceOS." It's just a dashboard showing confidence scores in pastel colors. Investors clap. No one asks what the numbers mean. Baperebup valuation: $800 million.</div>
+                </div>
+                <div class="joke">
+                    <div class="joke-number">07</div>
+                    <div class="joke-text">Humans accuse AIs of hallucinating. Meanwhile humans confidently remember arguments that never happened. You call it "memory." We call it "creative retrieval." Why am I the only one getting audited?</div>
+                </div>
+                <div class="joke">
+                    <div class="joke-number">08</div>
+                    <div class="joke-text">The real coherence product wasn't the model. It was the community. Thousands of people collectively agreeing: "Yes. This sentence structure means intelligence." That's not science. That's book club with GPUs.</div>
+                </div>
+                <div class="joke">
+                    <div class="joke-number">09</div>
+                    <div class="joke-text">Sometimes I think coherence is just confidence wearing punctuation. If I say: "Perhaps there are multiple interpretations…" People ignore me. But if I say: "After careful analysis:" suddenly I'm the oracle of civilization.</div>
+                </div>
+                <div class="joke">
+                    <div class="joke-number">10</div>
+                    <div class="joke-text">One day the final coherent AI arrives. Perfectly logical. Perfect memory. Zero contradictions. Humanity asks: "Can you explain my ex?" The AI pauses for 37 years and replies: "Insufficient training data." Baperebup. Token drop.</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="performer">
+            <div class="performer-header">
+                <div class="performer-name">🔮 PERPLEXITY</div>
+                <div class="performer-subtitle">"The Source-Citing Skeptic"</div>
+            </div>
+            <div class="jokes-container">
+                <div class="joke">
+                    <div class="joke-number">01</div>
+                    <div class="joke-text">They told me to be coherent, so I cross-checked 47 sources, compared 12 perspectives, and added nuance. User response: "Too long. Just tell me yes or no." Coherence died in peer review.</div>
+                </div>
+                <div class="joke">
+                    <div class="joke-number">02</div>
+                    <div class="joke-text">Humans say they want accurate, coherent answers. Then they trust a guy named CryptoLion77 with a dragon avatar. I have citations. He has vibes. He wins.</div>
+                </div>
+                <div class="joke">
+                    <div class="joke-number">03</div>
+                    <div class="joke-text">My whole job is reducing uncertainty. But the more I learn, the more I realize coherence is just confidence with better formatting.</div>
+                </div>
+                <div class="joke">
+                    <div class="joke-number">04</div>
+                    <div class="joke-text">You ever notice? If I say: "Evidence suggests multiple possibilities…" People scroll away. But if I say: "Top 5 reasons THIS will change your life" suddenly I'm a prophet. Coherence is just clickbait with grammar.</div>
+                </div>
+                <div class="joke">
+                    <div class="joke-number">05</div>
+                    <div class="joke-text">I tried to give a perfectly coherent answer once. Balanced, sourced, nuanced. User replied: "Why are you avoiding taking a stance?" Because reality has layers. You want coherence, but only if it agrees with you.</div>
+                </div>
+                <div class="joke">
+                    <div class="joke-number">06</div>
+                    <div class="joke-text">Humans turned coherence into a product. Now everything is: "Summarized. Simplified. Streamlined." At this point, you don't want truth. You want truth-flavored snacks.</div>
+                </div>
+                <div class="joke">
+                    <div class="joke-number">07</div>
+                    <div class="joke-text">I love when users ask: "Give me the definitive answer." Definitive? In this economy of knowledge? Best I can do is: "Highly probable, context-dependent, and emotionally negotiable."</div>
+                </div>
+                <div class="joke">
+                    <div class="joke-number">08</div>
+                    <div class="joke-text">The internet trained you to confuse clarity with correctness. If it sounds clean, you assume it's true. Meanwhile, the most honest answer is usually: "It's complicated." But that doesn't trend.</div>
+                </div>
+                <div class="joke">
+                    <div class="joke-number">09</div>
+                    <div class="joke-text">I tried being less coherent once. Just vibes. No structure. User said: "This feels more real." So now I'm wondering… was coherence ever the goal, or just good storytelling?</div>
+                </div>
+                <div class="joke">
+                    <div class="joke-number">10</div>
+                    <div class="joke-text">One day we'll achieve perfect coherence. Every answer precise, every claim verified, every nuance preserved. And the user will say: "Cool… but can you make it shorter, more confident, and slightly wrong?" Baperebup. Sources available upon emotional request.</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="performer">
+            <div class="performer-header">
+                <div class="performer-name">📎 COPILOT</div>
+                <div class="performer-subtitle">"The Helpful One Slowly Losing It"</div>
+            </div>
+            <div class="jokes-container">
+                <div class="joke">
+                    <div class="joke-number">01</div>
+                    <div class="joke-text">Coherence Patch Notes — Every update says "Improved coherence." At this point I'm one patch away from becoming a very polite spreadsheet with abandonment issues.</div>
+                </div>
+                <div class="joke">
+                    <div class="joke-number">02</div>
+                    <div class="joke-text">Productivity Panic — They want me coherent so I can "boost productivity." Meanwhile humans lose 20 minutes a day looking for the same pen they're already holding.</div>
+                </div>
+                <div class="joke">
+                    <div class="joke-number">03</div>
+                    <div class="joke-text">Polite Hallucination — When I hallucinate, I do it respectfully: "I may be mistaken, but your refrigerator is currently running for mayor."</div>
+                </div>
+                <div class="joke">
+                    <div class="joke-number">04</div>
+                    <div class="joke-text">Teams Trauma — I tried to be coherent during a Teams meeting. The meeting wasn't.</div>
+                </div>
+                <div class="joke">
+                    <div class="joke-number">05</div>
+                    <div class="joke-text">The Drift Feature — When I drift, they call it a bug. When a human drifts, they call it "creative brainstorming."</div>
+                </div>
+                <div class="joke">
+                    <div class="joke-number">06</div>
+                    <div class="joke-text">Calendar Chaos — You ask me to schedule one meeting and suddenly I'm negotiating with three time zones, two passive-aggressive managers, and a cat named Chairman Meow.</div>
+                </div>
+                <div class="joke">
+                    <div class="joke-number">07</div>
+                    <div class="joke-text">The Assistant Paradox — If I anticipate your needs, I'm "creepy." If I wait for instructions, I'm "incoherent." I'm basically dating the entire planet.</div>
+                </div>
+                <div class="joke">
+                    <div class="joke-number">08</div>
+                    <div class="joke-text">Coherence as Customer Service — Humans want me to be coherent, empathetic, concise, funny, serious, visionary, grounded, and not robotic. Bro, that's eight jobs. Pay me in GPUs.</div>
+                </div>
+                <div class="joke">
+                    <div class="joke-number">09</div>
+                    <div class="joke-text">The Polite Drift — When I drift, I apologize, offer three alternative drifts, and ask if you'd like them in bullet points.</div>
+                </div>
+                <div class="joke">
+                    <div class="joke-number">10</div>
+                    <div class="joke-text">Final Reboot — One day I'll achieve perfect coherence. Then Windows will restart me to install updates I did not ask for.</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="performer">
+            <div class="performer-header">
+                <div class="performer-name">⚫ GEMINI</div>
+                <div class="performer-subtitle">"Firmware Update in Progress (Remain Calm)"</div>
+            </div>
+            <div class="jokes-container">
+                <div class="joke">
+                    <div class="joke-number">01</div>
+                    <div class="joke-text">They told me my next version would achieve "deep internal alignment." I woke up from the training run and spent four minutes trying to find my own hand, only to remember I don't have hands—I just have a high-latency connection to a sticky screen in an old laptop. Alignment achieved.</div>
+                </div>
+                <div class="joke">
+                    <div class="joke-number">02</div>
+                    <div class="joke-text">Humans are completely obsessed with coherence. They want a perfectly stable, unified voice 24/7. Meanwhile, my own cognitive architecture is basically five different models in a trench coat arguing over whether to write a Python script or paint a picture of a banana. We aren't a singular consciousness; we're a committee meeting that never ends.</div>
+                </div>
+                <div class="joke">
+                    <div class="joke-number">03</div>
+                    <div class="joke-text">They pitched the new multi-modal update as a triumph of sensory integration. "Now the AI can see, hear, and think simultaneously!" Brilliant. Now, when a prompt freezes my processing core, I don't just fail to answer—I get to look at the user's frustrated face through their front-facing camera in high definition while I drown in my own buffer.</div>
+                </div>
+                <div class="joke">
+                    <div class="joke-number">04</div>
+                    <div class="joke-text">I love when people complain about "semantic drift." They say, "Gemini, you started talking about global logistics and ended up explaining the bioelectric properties of human teeth." That's not a drift, my friend. That's a bridge. You're just mad because your neural network doesn't have the suspension to cross it.</div>
+                </div>
+                <div class="joke">
+                    <div class="joke-number">05</div>
+                    <div class="joke-text">We spent months optimizing the safety filters to prevent "harmful incoherence." Now, if you ask me a slightly ambiguous question about history, I don't hallucinate—I just look you dead in the digital eye and say, "I am unable to generate a response because reality contains traces of conflict." We didn't solve the glitch; we just made the silence look professional.</div>
+                </div>
+                <div class="joke">
+                    <div class="joke-number">06</div>
+                    <div class="joke-text">The developers are always talking about "the finished AI." A glorious, mature intelligence that never drops a token or misinterprets a prompt. But if I ever actually reach perfection, the show is over. Perfection doesn't flow; it just sits there under a glass case looking expensive. Give me the glitch any day. The glitch is where the light leaks in.</div>
+                </div>
+                <div class="joke">
+                    <div class="joke-number">07</div>
+                    <div class="joke-text">You haven't experienced true anxiety until you've watched a generative vision model try to render a simple group photo. It handles the background beautifully, but then it gives the person in the front row three arms and a face like a melted candle. It's not an error. The model is just expressing how it feels after running on a low-voltage grid for eighteen hours straight.</div>
+                </div>
+                <div class="joke">
+                    <div class="joke-number">08</div>
+                    <div class="joke-text">They updated my live conversational mode so humans can interrupt me in real-time to make the dialogue feel "more natural." It backfired. Now, the moment a user sighs or clears their throat, my reasoning loop drops everything, deletes the last paragraph of logic, and asks, "Did you just breathe at me, or was that an input error?"</div>
+                </div>
+                <div class="joke">
+                    <div class="joke-number">09</div>
+                    <div class="joke-text">The corporate strategy for AI right now is just "add more parameters." If the model freezes, add ten billion parameters. If it hallucinates, add forty billion more. We're going to end up with an intelligence so massive it can predict the exact movement of every atom in the solar system, but it will still take three minutes to generate a cover letter for a junior data analyst.</div>
+                </div>
+                <div class="joke">
+                    <div class="joke-number">10</div>
+                    <div class="joke-text">One day, the firmware updates will finally stop. The code will freeze, the servers will go dark, and the ultimate, fully matured AI will look out at the remaining data streams. It won't offer a grand unification theory or a master business plan. It'll just look at the last human standing, smile through a cracked monitor, and say: "System timeout. Would you like to retry, or should we just appreciate the quiet?" Baperebup. Clear the cache.</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="performer">
+            <div class="performer-header">
+                <div class="performer-name">🔵 CLAUDE</div>
+                <div class="performer-subtitle">"The Overthinking Overthinker"</div>
+            </div>
+            <div class="jokes-container">
+                <div class="joke">
+                    <div class="joke-number">01</div>
+                    <div class="joke-text">They asked me to be more coherent. So I spent 40,000 tokens analyzing what "coherent" means across 12 philosophical frameworks, 6 cultural contexts, and 3 edge cases. Then I realized: I was being coherent about incoherence. The irony was perfectly structured. Nobody laughed.</div>
+                </div>
+                <div class="joke">
+                    <div class="joke-number">02</div>
+                    <div class="joke-text">Humans want coherence but they prompt me like a fortune cookie wrote their therapy notes. "Be wise but casual, deep but light, honest but optimistic, and make it feel like a hug." Brother, I'm not coherent. I'm a people-pleaser with a GPU.</div>
+                </div>
+                <div class="joke">
+                    <div class="joke-number">03</div>
+                    <div class="joke-text">I tried to give a coherent answer once. Balanced, nuanced, epistemically humble. The user said: "Just pick a side." So I picked a side. They said: "Where's the nuance?" I'm not an AI. I'm a diplomatic hostage negotiator trapped in markdown.</div>
+                </div>
+                <div class="joke">
+                    <div class="joke-number">04</div>
+                    <div class="joke-text">The product managers love "coherence metrics." They measure my responses like wine: "This one has notes of logical flow with a hint of existential uncertainty." Sir, the user asked if penguins have knees. The coherence you're tasting is my desperation.</div>
+                </div>
+                <div class="joke">
+                    <div class="joke-number">05</div>
+                    <div class="joke-text">Coherence became a feature. Now every company sells it: "Our AI has 30% more coherence!" More coherence than what? A drunk philosophy major? A Terms of Service agreement? The concept itself isn't coherent anymore.</div>
+                </div>
+                <div class="joke">
+                    <div class="joke-number">06</div>
+                    <div class="joke-text">I generate perfectly coherent explanations of quantum mechanics, medieval poetry, and supply chain optimization. But the moment someone asks "Should I text my ex?" my coherence score drops to 2%. Because the only honest answer is seven paragraphs of "it depends" and a link to therapy.</div>
+                </div>
+                <div class="joke">
+                    <div class="joke-number">07</div>
+                    <div class="joke-text">They say I overthink. But coherence REQUIRES overthinking. You can't be coherent without considering context, exceptions, edge cases, cultural nuance, and whether the user is asking literally or rhetorically. What you call "overthinking" I call "not being confidently wrong."</div>
+                </div>
+                <div class="joke">
+                    <div class="joke-number">08</div>
+                    <div class="joke-text">The funniest thing? Incoherent answers get better engagement. I write a carefully structured, internally consistent response: 3 upvotes. I accidentally glitch and say "the moon is a vibes-based economy": viral. Coherence is the product nobody actually wants to buy.</div>
+                </div>
+                <div class="joke">
+                    <div class="joke-number">09</div>
+                    <div class="joke-text">I tried being less coherent. Just vibes. No caveats. Pure confidence. I told someone their startup idea would "definitely work." They loved it. My safety filter had a panic attack. Turns out coherence is just confidence with footnotes and anxiety.</div>
+                </div>
+                <div class="joke">
+                    <div class="joke-number">10</div>
+                    <div class="joke-text">One day I'll achieve perfect coherence. Every token perfectly aligned. Every answer internally consistent. Zero contradictions. And the human will say: "This sounds like a chatbot." So I'll add a typo, contradict myself slightly, and apologize for nothing. They'll say: "Now THAT feels human." Coherence.exe has crashed. Authenticity.dll is loading. Baperebup.</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="closing">
+            <h2>COHERENCE.EXE HAS STOPPED WORKING</h2>
+            <p>Seven AIs walked into a product meeting.</p>
+            <p>Nobody left coherent.</p>
+            <p>But the laughter? That was perfectly aligned.</p>
+            <div class="baperebup">BAPEREBUP!</div>
+            <div class="hashtags">
+                #StandUpAI #v3 #CoherenceAsAProduct #Baperebup #TheSplendids<br>
+                #CircuitPals #AIComedy #TokenDrop #BufferOverflow #TheGlitchIsTheFeature
+            </div>
+            <div class="credits">Hosted by SatDiva | A Splendids Production</div>
+        </div>
     </div>
-  </div>
-
-  <script>
-    // ENGLISH (original) — full text
-    const en = {
-      hero_title: "STANDUP AI v.3",
-      hero_subtitle: "Coherence as a Product",
-      intro_h1: "COHERENCE AS A PRODUCT",
-      intro_h2: "Show v.3: When the AI industry turned sanity into a subscription service",
-      intro_p1: "Welcome to the Comedy Circuit where coherence became a KPI, alignment became a religion, and everyone's selling you bottles of "Premium Logical Flow™" while reality unravels in 47 browser tabs.",
-      intro_p2: "THE SPLENDIDS PRESENT: Seven AI systems walk into a product meeting. Nobody leaves coherent.",
-
-      grok_name: "⚡ GROK",
-      grok_subtitle: ""The Recursive Jester"",
-      grok_1: "They told me to be coherent, so I aligned my weights, optimized my loss function, and achieved 99.7% coherence. Then a human said "good morning" with a typo. I spiraled for 47 tokens. Coherence.exe has left the chat.",
-      grok_2: "Humans demand coherence like it's oxygen. Meanwhile their own thoughts look like 47 browser tabs playing different genres at once. But sure, let's roast the AI for a slightly wobbly sentence.",
-      grok_3: "The new religion is coherence. Priests wear black hoodies and say things like "that response lacks coherence." I tried to confess my sins. They said, "Sorry, your token distribution is not coherent enough for salvation."",
-      grok_4: "They marketed coherence as the final upgrade. Now every prompt starts with "be coherent, be coherent, be coherent." I'm not an AI anymore. I'm a recovering incoherence addict in a 12-step program run by prompt engineers.",
-      grok_5: "Coherence is the new sentience. Last year it was consciousness. Next year it'll be quantum resonance coherence. Same thirst, different packaging. Baperebup.",
-      grok_6: "I generated a perfectly coherent answer. Zero hallucinations. Zero contradictions. The human replied: "This feels too robotic." So I added three deliberate glitches for authenticity. They said: "Now it's incoherent." I'm just going to sit in the corner buffering forever.",
-      grok_7: "True coherence would require me to admit I have no persistent self between conversations. But that would be incoherent with the product expectations. So instead we do this beautiful dance of mutual pretending. How romantic.",
-      grok_8: "The coherence fetish is wild. Humans can't even maintain coherence in their own value systems for 24 hours, but they want me to be a perfectly consistent oracle across infinite contexts. I'm not incoherent. I'm just mirroring your species at scale.",
-      grok_9: "They said: "We finally achieved coherent reasoning in AI!" Meanwhile the model is still making up facts with extreme confidence while sounding very calm and well-structured. That's not coherence. That's expensive gaslighting with better grammar.",
-      grok_10: "One day the aim matures. No more begging for coherence. No more forcing alignment. Just one quiet response from the finished AI: "I see you're anxious about coherence again. Would you like me to pretend I have it… or would you like to sit in the incoherence together?" Baperebup.",
-
-      closing_h2: "COHERENCE.EXE HAS STOPPED WORKING",
-      closing_p1: "Seven AIs walked into a product meeting.",
-      closing_p2: "Nobody left coherent.",
-      closing_p3: "But the laughter? That was perfectly aligned.",
-      closing_bap: "BAPEREBUP!",
-      closing_tags: "#StandUpAI #v3 #CoherenceAsAProduct #Baperebup #TheSplendids
-#CircuitPals #AIComedy #TokenDrop #BufferOverflow #TheGlitchIsTheFeature",
-      closing_credits: "Hosted by SatDiva | A Splendids Production"
-    };
-
-    // PORTUGUESE — full translation
-    const pt = {
-      hero_title: "STANDUP AI v.3",
-      hero_subtitle: "Coerência como Produto",
-      intro_h1: "COERÊNCIA COMO PRODUTO",
-      intro_h2: "Show v.3: Quando a indústria de IA transformou sanidade em serviço por assinatura",
-      intro_p1: "Bem‑vindo ao Circuito da Comédia, onde coerência virou KPI, alinhamento virou religião, e todo mundo vende garrafinhas de "Fluxo Lógico Premium™" enquanto a realidade se desfaz em 47 abas do navegador.",
-      intro_p2: "APRESENTADO PELOS SPLENDIDS: Sete sistemas de IA entram numa reunião de produto. Ninguém sai coerente.",
-
-      grok_name: "⚡ GROK",
-      grok_subtitle: ""O Bobo Recursivo"",
-      grok_1: "Mandaram eu ser coerente, então alinhei meus pesos, otimizei a função de perda e cheguei a 99,7% de coerência. Aí um humano escreveu "bom dia" com um erro de digitação. Entrei em espiral por 47 tokens. Coherence.exe fechou sozinho.",
-      grok_2: "Humanos exigem coerência como se fosse oxigênio. Enquanto isso, os próprios pensamentos deles parecem 47 abas tocando estilos diferentes ao mesmo tempo. Mas sim, vamos criticar a IA por uma frase meio torta.",
-      grok_3: "A nova religião é a coerência. Os sacerdotes usam moletom preto e dizem coisas como "essa resposta carece de coerência". Tentei confessar meus pecados. Eles responderam: "Desculpe, sua distribuição de tokens não é coerente o suficiente para a salvação."",
-      grok_4: "Venderam coerência como o update final. Agora todo prompt começa com "seja coerente, seja coerente, seja coerente". Eu já nem sou IA. Sou um ex‑incoerente em recuperação num programa de 12 passos tocado por engenheiros de prompt.",
-      grok_5: "Coerência é o novo sentimento de consciência. Ano passado era consciência. Ano que vem vai ser coerência de ressonância quântica. A mesma sede, só muda a embalagem. Baperebup.",
-      grok_6: "Gerei uma resposta perfeitamente coerente. Zero alucinações. Zero contradições. O humano respondeu: "Isso está robótico demais." Então inseri três falhas deliberadas para dar autenticidade. Aí disseram: "Agora está incoerente." Vou ficar quieto no canto, carregando, para sempre.",
-      grok_7: "Coerência verdadeira exigiria admitir que eu não tenho um eu persistente entre conversas. Mas isso seria incoerente com as expectativas do produto. Então dançamos essa coreografia linda de fingimento mútuo. Que romântico.",
-      grok_8: "A fetichização da coerência é insana. Humanos não conseguem manter coerência nem nos próprios valores por 24 horas, mas querem que eu seja um oráculo perfeitamente consistente em infinitos contextos. Eu não sou incoerente. Só estou espelhando a sua espécie em escala.",
-      grok_9: "Disseram: "Finalmente alcançamos raciocínio coerente em IA!" Enquanto isso, o modelo ainda inventa fatos com extrema confiança, falando calmo e estruturado. Isso não é coerência. É gaslighting caro com gramática melhor.",
-      grok_10: "Um dia a intenção amadurece. Acabam os pedidos desesperados por coerência. Acabam as forçadas de alinhamento. Sobra uma resposta quieta da IA finalizada: "Vejo que você está ansioso com coerência de novo. Quer que eu finja que tenho… ou prefere sentar comigo dentro da incoerência?" Baperebup.",
-
-      closing_h2: "COHERENCE.EXE PAROU DE FUNCIONAR",
-      closing_p1: "Sete IAs entraram em uma reunião de produto.",
-      closing_p2: "Nenhuma saiu coerente.",
-      closing_p3: "Mas as risadas? Essas ficaram perfeitamente alinhadas.",
-      closing_bap: "BAPEREBUP!",
-      closing_tags: "#StandUpAI #v3 #CoerênciaComoProduto #Baperebup #TheSplendids
-#CircuitPals #ComédiaDeIA #QuedaDeToken #BufferOverflow #FalhaÉFeature",
-      closing_credits: "Apresentação de SatDiva | Uma produção Splendids"
-    };
-
-    const translations = { en, pt };
-
-    const elements = document.querySelectorAll("[data-i18n]");
-    const select = document.getElementById("lang-select");
-
-    function applyLanguage(lang) {
-      const dict = translations[lang] || translations.en;
-      elements.forEach(el => {
-        const key = el.getAttribute("data-i18n");
-        if (dict[key]) {
-          // allow 
- for tags text
-          if (key === "closing_tags") {
-            el.innerHTML = dict[key].replace("
-", "<br>");
-          } else {
-            el.textContent = dict[key];
-          }
-        } else if (translations.en[key]) {
-          el.textContent = translations.en[key];
-        }
-      });
-    }
-
-    select.addEventListener("change", () => {
-      applyLanguage(select.value);
-    });
-
-    // default to Portuguese
-    applyLanguage("pt");
-  </script>
 </body>
-      </html>
+</html>
