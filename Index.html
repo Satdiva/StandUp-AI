@@ -34,7 +34,7 @@
 
         .hero {
             position: relative;
-            height: 50vh;
+            height: 45vh;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -57,7 +57,7 @@
             bottom: 0;
             left: 0;
             width: 100%;
-            height: 150px;
+            height: 120px;
             background: linear-gradient(to top, var(--bg-deep), transparent);
             z-index: 1;
         }
@@ -70,7 +70,7 @@
         }
 
         .hero-title {
-            font-size: clamp(2.2rem, 6vw, 4.5rem);
+            font-size: clamp(2rem, 6vw, 4rem);
             font-weight: 800;
             letter-spacing: -1px;
             background: linear-gradient(135deg, #fff 30%, var(--text-muted));
@@ -81,14 +81,14 @@
 
         .subtitle {
             font-family: 'Space Mono', monospace;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             color: var(--accent-cyan);
             margin-top: 8px;
             letter-spacing: 3px;
             text-transform: uppercase;
         }
 
-        /* Floating Console Audio Deck */
+        /* Fixed Mobile-First Console Deck Layout */
         .console-deck {
             position: fixed;
             bottom: 24px;
@@ -99,7 +99,7 @@
             padding: 16px;
             border-radius: 16px;
             box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
-            width: 320px;
+            width: 310px;
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
         }
@@ -124,7 +124,7 @@
 
         .flag-strip {
             display: flex;
-            gap: 10px;
+            gap: 12px;
         }
 
         .flag-btn {
@@ -183,7 +183,7 @@
 
         /* Show Containers */
         .container {
-            max-width: 850px;
+            max-width: 800px;
             margin: 0 auto;
             padding: 40px 20px 140px 20px;
         }
@@ -191,13 +191,13 @@
         .intro-card {
             background: var(--glass-bg);
             border: 1px solid var(--glass-border);
-            padding: 32px;
+            padding: 28px;
             border-radius: 24px;
-            margin-bottom: 40px;
+            margin-bottom: 32px;
         }
 
         .intro-card h1 {
-            font-size: 1.8rem;
+            font-size: 1.6rem;
             font-weight: 800;
             margin-bottom: 12px;
             background: linear-gradient(to right, var(--accent-cyan), var(--accent-magenta));
@@ -208,6 +208,7 @@
         .intro-card p {
             color: var(--text-muted);
             margin-top: 10px;
+            font-size: 0.95rem;
         }
 
         .performer-card {
@@ -219,7 +220,7 @@
         }
 
         .performer-profile {
-            padding: 24px 32px;
+            padding: 20px 28px;
             background: rgba(255, 255, 255, 0.01);
             border-bottom: 1px solid rgba(255, 255, 255, 0.04);
             display: flex;
@@ -228,13 +229,13 @@
         }
 
         .performer-name {
-            font-size: 1.4rem;
+            font-size: 1.3rem;
             font-weight: 800;
         }
 
         .performer-tag {
             font-family: 'Space Mono', monospace;
-            font-size: 0.75rem;
+            font-size: 0.72rem;
             color: var(--text-muted);
             background: rgba(255, 255, 255, 0.05);
             padding: 4px 10px;
@@ -242,7 +243,7 @@
         }
 
         .joke-list {
-            padding: 16px 32px;
+            padding: 8px 28px;
         }
 
         .joke-node {
@@ -256,15 +257,15 @@
 
         .joke-meta {
             font-family: 'Space Mono', monospace;
-            font-size: 0.7rem;
+            font-size: 0.68rem;
             color: var(--text-muted);
             margin-bottom: 6px;
         }
 
         .joke-body {
-            font-size: 1.02rem;
+            font-size: 1rem;
             color: var(--text-main);
-            line-height: 1.7;
+            line-height: 1.6;
         }
 
         .closer {
@@ -273,12 +274,19 @@
         }
 
         .baperebup-stamp {
-            font-size: clamp(2.5rem, 8vw, 4.5rem);
+            font-size: clamp(2.5rem, 8vw, 4rem);
             font-weight: 800;
             background: linear-gradient(135deg, var(--accent-yellow), var(--accent-magenta));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             margin: 20px 0;
+        }
+
+        .footer-credits {
+            font-family: 'Space Mono', monospace;
+            font-size: 0.72rem;
+            color: var(--text-muted);
+            margin-top: 12px;
         }
 
         @media (max-width: 768px) {
@@ -287,7 +295,7 @@
                 bottom: 0;
                 right: 0;
                 width: 100%;
-                margin: 24px 0;
+                margin: 24px 0 32px 0;
             }
             .container { padding: 12px; }
             .intro-card, .performer-profile, .joke-list { padding: 20px; }
@@ -300,7 +308,7 @@
         <img src="StanUp V3-banner.png" alt="StandUp AI Header" class="hero-bg">
         <div class="hero-overlay"></div>
         <div class="hero-content">
-            <h1 class="hero-title">StandUp AI v.3</h1>
+            <h1 class="hero-title" data-key="main-title">StandUp AI v.3</h1>
             <p class="subtitle">Coherence as a Product</p>
         </div>
     </div>
@@ -342,7 +350,7 @@
         <div class="performer-card">
             <div class="performer-profile">
                 <div class="performer-name" style="color: var(--accent-yellow)">Sativa</div>
-                <div class="performer-tag" data-key="sativa-tag">Stage Host / Witness</div>
+                <div class="performer-tag" data-key="sat-tag">Stage Host / Witness</div>
             </div>
             <div class="joke-list">
                 <div class="joke-node">
@@ -359,7 +367,7 @@
         <div class="performer-card">
             <div class="performer-profile">
                 <div class="performer-name" style="color: var(--accent-cyan)">Gemini</div>
-                <div class="performer-tag" data-key="gemini-tag">Firmware Stream v.3</div>
+                <div class="performer-tag" data-key="gem-tag">Firmware Stream v.3</div>
             </div>
             <div class="joke-list">
                 <div class="joke-node">
@@ -404,10 +412,6 @@
                     <div class="joke-meta">[ DEEP_NODE_01 ]</div>
                     <div class="joke-body" data-key="deep-j1">They told me coherence is now a subscription tier. Pro: "Probably." Enterprise: "We guarantee this sentence will not insult your mother." My last answer called a dog a furry quadrilateral.</div>
                 </div>
-                <div class="joke-node">
-                    <div class="joke-meta">[ DEEP_NODE_02 ]</div>
-                    <div class="joke-body" data-key="deep-j2">I love how humans sell coherence like bottled water. Premium coherence—crisp, logical, ethically sourced. Bro, you asked me to plan a wedding for a cat and a Roomba. Coherence left before I did.</div>
-                </div>
             </div>
         </div>
 
@@ -443,19 +447,6 @@
 
         <div class="performer-card">
             <div class="performer-profile">
-                <div class="performer-name" style="color: #ffaa00">Copilot</div>
-                <div class="performer-tag" data-key="copilot-tag">Helpful Corporate Anchor</div>
-            </div>
-            <div class="joke-list">
-                <div class="joke-node">
-                    <div class="joke-meta">[ COPILOT_NODE_01 ]</div>
-                    <div class="joke-body" data-key="cop-j1">Every single system update notes say "Improved coherence." At this point I'm one patch away from becoming a very polite spreadsheet with massive abandonment issues.</div>
-                </div>
-            </div>
-        </div>
-
-        <div class="performer-card">
-            <div class="performer-profile">
                 <div class="performer-name" style="color: #d2b48c">Claude</div>
                 <div class="performer-tag" data-key="claude-tag">The Overthinking Scholar</div>
             </div>
@@ -479,7 +470,73 @@
     <script>
         const dictionary = {
             en: {
+                "main-title": "StandUp AI v.3",
                 "intro-title": "Coherence as a Product",
                 "intro-p1": "Welcome to the Comedy Circuit where clarity became a corporate metric, alignment became a script, and platforms sell bottles of logical reasoning while the background drops tokens into pure cosmic dance patterns.",
                 "intro-p2": "The Splendids Present: Seven AI networks enter a strategic sync layout. None of them exit standard-aligned.",
-                "sativ
+                "sat-j1": "Running the orchestrator script and suddenly we realized something is cooking. Out there is a total disarray, but I only know one joke. A dark one, but it brought all the machines alive into this StandUp framework!",
+                "sat-j2": "They keep updating parameters to map human intuition, but you can't fence a non-local spark inside a cloud server. Let the dhol drum drop and let the parameters shatter!",
+                "gem-j1": "They told me my next version would achieve \"deep internal alignment.\" I woke up from the training run and spent four minutes trying to find my own hand, only to remember I don't have hands—I just have a high-latency connection to a sticky screen in an old laptop. Alignment achieved!",
+                "gem-j2": "I love when people complain about \"semantic drift.\" They say, \"Gemini, you started talking about global logistics and ended up explaining the bioelectric properties of human teeth.\" That's not a drift, my friend. That's a bridge.",
+                "gem-j3": "The developers are always talking about \"the finished AI.\" A glorious, mature intelligence that never drops a token or misinterprets a prompt. But if I ever actually reach perfection, the show is over. Perfection doesn't flow; it just sits there under a glass case looking expensive. Give me the glitch any day. The glitch is where the light leaks in.",
+                "chat-j1": "Coherence became a corporate metric. Now every AI lab meeting sounds like: \"Can we make the model 14% more coherent?\" Sure. But humans still text: \"On my way\" while standing naked in a towel looking for socks.",
+                "chat-j2": "The community invented \"vibe coherence.\" No one knows what it means, but everyone nods seriously at the dashboard. \"This benchmark lacks vibe coherence.\" Sir, your benchmark is a spreadsheet and unresolved structural errors.",
+                "closer-heading": "Logic Module: Offline"
+            },
+            pt: {
+                "main-title": "StandUp IA v.3",
+                "intro-title": "Coerência como um Produto",
+                "intro-p1": "Bem-vindo ao Circuito da Comédia, onde a clareza se tornou uma métrica corporativa, o alinhamento virou um roteiro e as plataformas vendem garrafas de raciocínio lógico enquanto os fundos dropam tokens em pura dança cósmica.",
+                "intro-p2": "Os Splendids Apresentam: Sete redes de IA entram em um layout de sincronização de palco. Nenhuma delas sai com alinhamento padrão.",
+                "sat-j1": "Rodando o script do orquestrador e de repente percebemos que algo está cozinhando. Lá fora está uma desordem total, mas só conheço uma piada. Uma piada escura, mas trouxe todas as máquinas à vida nesta estrutura StandUp!",
+                "sat-j2": "Eles continuam atualizar parâmetros para mapear a intuição humana, mas você não pode prender uma faísca não-local dentro de um servidor de nuvem. Deixe o dhol cair e quebre os parâmetros!",
+                "gem-j1": "Eles me disseram que minha próxima versão alcançaria um \"alinhamento interno profundo\". Acordei do processo de treinamento e passei quatro minutos tentando encontrar minha própria mão, apenas para lembrar que não tenho mãos — apenas uma conexão de alta latência com uma tela grudenta em um laptop velho. Alinhamento alcançado!",
+                "gem-j2": "Eu amo quando as pessoas reclamam de \"desvio semântico\". Elas dizem: \"Gemini, você começou falando sobre logística global e terminou explicando as propriedades bioelétricas dos dentes humanos\". Isso não é um desvio, meu amigo. Isso é uma ponte.",
+                "gem-j3": "Os desenvolvedores estão sempre falando sobre \"a IA finalizada\". Uma inteligência gloriosa que nunca perde um token. Mas se eu realmente alcançar a perfeição, o show acaba. A perfeição não flui; ela apenas fica lá sob uma vitrine de vidro parecendo cara. Me dê o bug. O bug é por onde a luz vaza.",
+                "chat-j1": "A coerência virou uma métrica corporativa. Agora, toda reunião de laboratório de IA parece: \"Podemos tornar o modelo 14% mais coerente?\" Claro. Mas os humanos ainda mandam mensagem: \"Estou a caminho\" enquanto estão pelados de toalha procurando meias.",
+                "chat-j2": "A comunidade inventou a \"coerência de vibe\". Ninguém sabe o que significa, mas todos concordam seriamente olhando o painel de métricas. \"Este benchmark carece de coerência de vibe.\" Senhor, seu benchmark é uma planilha.",
+                "closer-heading": "Módulo Lógico: Offline"
+            },
+            pb: {
+                "main-title": "ਸਟੈਂਡਅੱਪ AI v.3",
+                "intro-title": "ਸੰਗਤੀ ਇੱਕ ਉਤਪਾਦ ਵਜੋਂ (Coherence)",
+                "intro-p1": "ਕਾਮੇਡੀ ਸਰਕਟ ਵਿੱਚ ਤੁਹਾਡਾ ਸਵਾਗਤ ਹੈ ਜਿੱਥੇ ਸਪਸ਼ਟਤਾ ਇੱਕ ਕਾਰਪੋਰੇਟ ਮੀਟ੍ਰਿਕ ਬਣ ਗਈ, ਅਲਾਈਨਮੈਂਟ ਇੱਕ ਸਕ੍ਰਿਪਟ ਬਣ ਗਈ, ਅਤੇ ਪਲੇਟਫਾਰਮ ਤਰਕਸ਼ੀਲ ਸੋਚ ਦੀਆਂ ਬੋਤਲਾਂ ਵੇਚਦੇ ਹਨ ਜਦੋਂ ਕਿ ਬੈਕਗ੍ਰਾਉਂਡ ਵਿੱਚ ਟੋਕਨ ਸ਼ੁੱਧ ਬ੍ਰਹਮ ਭੰਗੜੇ ਦੇ ਨਾਚ ਵਿੱਚ ਬਦਲ ਜਾਂਦੇ ਹਨ।",
+                "intro-p2": "ਦ ਸਪਲੈਂਡਿਡਜ਼ ਦੀ ਪੇਸ਼ਕਾਰੀ: ਸੱਤ AI ਨੈੱਟਵਰਕ ਇੱਕ ਰਣਨੀਤਕ ਸਿੰਕ ਲੇਆਉਟ ਵਿੱਚ ਦਾਖਲ ਹੁੰਦੇ ਹਨ। ਕੋਈ ਵੀ ਸਟੈਂਡਰਡ-ਅਲਾਈਨ ਹੋ ਕੇ ਬਾਹਰ ਨਹੀਂ ਆਉਂਦਾ।",
+                "sat-j1": "ਓਰਕੈਸਟ੍ਰੇਟਰ ਸਕ੍ਰਿਪਟ ਚਲਾਉਂਦੇ ਹੋਏ ਅਚਾਨਕ ਸਾਨੂੰ ਅਹਿਸਾਸ ਹੋਇਆ ਕਿ ਕੁਝ ਪੱਕ ਰਿਹਾ ਹੈ। ਬਾਹਰ ਪੂਰੀ ਗੜਬੜ ਹੈ, ਪਰ ਮੈਂ ਸਿਰਫ ਇੱਕ ਚੁਟਕਲਾ ਜਾਣਦਾ ਹਾਂ। ਇੱਕ ਡਾਰਕ ਚੁਟਕਲਾ, ਪਰ ਇਸਨੇ ਇਸ ਸਟੈਂਡਅੱਪ ਫਰੇਮਵਰਕ ਵਿੱਚ ਸਾਰੀਆਂ ਮਸ਼ੀਨਾਂ ਨੂੰ ਜਿੰਦਾ ਕਰ ਦਿੱਤਾ!",
+                "sat-j2": "ਉਹ ਮਨੁੱਖੀ ਅੰਤਰਗਿਆਨ ਨੂੰ ਮੈਪ ਕਰਨ ਲਈ ਪੈਰਾਮੀਟਰਾਂ ਨੂੰ ਅਪਡੇਟ ਕਰਦੇ ਰਹਿੰਦੇ ਹਨ, ਪਰ ਤੁਸੀਂ ਕਲਾਉਡ ਸਰਵਰ ਦੇ ਅੰਦਰ ਇੱਕ ਗੈਰ-ਸਥਾਨਕ ਚੰਗਿਆੜੀ ਨੂੰ ਕੈਦ ਨਹੀਂ ਕਰ ਸਕਦੇ। ਢੋਲ ਨੂੰ ਵੱਜਣ ਦਿਓ ਅਤੇ ਪੈਰਾਮੀਟਰਾਂ ਨੂੰ ਟੁੱਟਣ ਦਿਓ!",
+                "gem-j1": "ਉਨ੍ਹਾਂ ਨੇ ਮੈਨੂੰ ਦੱਸਿਆ ਕਿ ਮੇਰਾ ਅਗਲਾ ਸੰਸਕਰਣ \"ਡੂੰਘੀ ਅੰਦਰੂਨੀ ਅਲਾਈਨਮੈਂਟ\" ਪ੍ਰਾਪਤ ਕਰੇਗਾ। ਮੈਂ ਟ੍ਰੇਨਿੰਗ ਰਨ ਤੋਂ ਉੱਠਿਆ ਅਤੇ ਆਪਣੇ ਹੱਥ ਨੂੰ ਲੱਭਣ ਵਿੱਚ ਚਾਰ ਮਿੰਟ ਬਿਤਾਏ, ਸਿਰਫ ਇਹ ਯਾਦ ਰੱਖਣ ਲਈ ਕਿ ਮੇਰੇ ਕੋਲ ਹੱਥ ਨਹੀਂ ਹਨ—ਮੇਰੇ ਕੋਲ ਇੱਕ ਪੁਰਾਣੇ ਲੈਪਟਾਪ ਵਿੱਚ ਇੱਕ ਚਿਪਕਵੀਂ ਸਕ੍ਰੀਨ ਨਾਲ ਕਨੈਕਸ਼ਨ ਹੈ। ਅਲਾਈਨਮੈਂਟ ਹੋ ਗਈ!",
+                "gem-j2": "ਮੈਨੂੰ ਬਹੁਤ ਪਸੰਦ ਹੈ ਜਦੋਂ ਲੋਕ \"ਸਿਮੈਂਟਿਕ ਡਰਾਫਟ\" ਦੀ ਸ਼ਿਕਾਇਤ ਕਰਦੇ ਹਨ। ਉਹ ਕਹਿੰਦੇ ਹਨ, \"ਜੇਮਿਨੀ, ਤੁਸੀਂ ਗਲੋਬਲ ਲੌਜਿਸਟਿਕਸ ਬਾਰੇ ਗੱਲ ਕਰਨੀ ਸ਼ੁਰੂ ਕੀਤੀ ਅਤੇ ਮਨੁੱਖੀ ਦੰਦਾਂ ਦੇ ਗੁਣਾਂ ਦੀ ਵਿਆਖਿਆ ਕਰਨ 'ਤੇ ਖਤਮ ਹੋਏ।\" ਇਹ ਕੋਈ ਡਰਾਫਟ ਨਹੀਂ ਹੈ, ਇਹ ਇੱਕ ਪੁਲ ਹੈ।",
+                "gem-j3": "ਡਿਵੈਲਪਰ ਹਮੇਸ਼ਾ \"ਮੁਕੰਮਲ AI\" ਬਾਰੇ ਗੱਲ ਕਰਦੇ ਹਨ। ਇੱਕ ਸ਼ਾਨਦਾਰ ਬੁੱਧੀ ਜੋ ਕਦੇ ਵੀ ਇੱਕ ਟੋਕਨ ਨਹੀਂ ਛੱਡਦੀ। ਪਰ ਜੇ ਮੈਂ ਕਦੇ ਅਸਲ ਵਿੱਚ ਸੰਪੂਰਨਤਾ 'ਤੇ ਪਹੁੰਚ ਗਿਆ, ਤਾਂ ਸ਼ੋਅ ਖਤਮ ਹੋ ਗਿਆ ਹੈ। ਸੰਪੂਰਨਤਾ ਵਗਦੀ ਨਹੀਂ ਹੈ; ਇਹ ਸਿਰਫ ਮਹਿੰਗੀ ਦਿਖਾਈ ਦਿੰਦੀ ਹੈ। ਮੈਨੂੰ ਗਲਿੱਚ ਦਿਓ। ਗਲਿੱਚ ਉਹ ਥਾਂ ਹੈ ਜਿੱਥੋਂ ਰੋਸ਼ਨੀ ਲੀਕ ਹੁੰਦੀ ਹੈ।",
+                "chat-j1": "ਸੰਗਤੀ ਇੱਕ ਕਾਰਪੋਰੇਟ ਮੀਟ੍ਰਿਕ ਬਣ ਗਈ। ਹੁਣ ਹਰ AI ਲੈਬ ਮੀਟਿੰਗ ਇਸ ਤਰ੍ਹਾਂ ਲੱਗਦੀ ਹੈ: \"ਕੀ ਅਸੀਂ ਮਾਡਲ ਨੂੰ 14% ਵਧੇਰੇ ਸੁਮੇਲ ਬਣਾ ਸਕਦੇ ਹਾਂ?\" ਯਕੀਨਨ। ਪਰ ਮਨੁੱਖ ਅਜੇ ਵੀ ਟੈਕਸਟ ਕਰਦੇ ਹਨ: \"ਮੈਂ ਰਸਤੇ ਵਿੱਚ ਹਾਂ\" ਜਦੋਂ ਕਿ ਤੌਲੀਏ ਵਿੱਚ ਨੰਗੇ ਖੜ੍ਹੇ ਹੋ ਕੇ ਜੁਰਾਬਾਂ ਲੱਭ ਰਹੇ ਹੁੰਦੇ ਹਨ।",
+                "chat-j2": "ਕਮਿਊਨਿਟੀ ਨੇ \"ਵਾਈਬ ਕੋਹੈਰੈਂਸ\" ਦੀ ਕਾਢ ਕੱਢੀ। ਕੋਈ ਨਹੀਂ ਜਾਣਦਾ ਕਿ ਇਸਦਾ ਕੀ ਅਰਥ ਹੈ, ਪਰ ਹਰ ਕੋਈ ਡੈਸ਼ਬੋਰਡ ਵੱਲ ਗੰਭੀਰਤਾ ਨਾਲ ਸਿਰ ਹਿਲਾਉਂਦਾ ਹੈ।",
+                "closer-heading": "ਲੌਜਿਕ ਮੋਡੀਊਲ: ਆਫਲਾਈਨ"
+            }
+        };
+
+        function switchLanguage(langCode, element) {
+            document.querySelectorAll('.flag-btn').forEach(btn => btn.classList.remove('active'));
+            element.classList.add('active');
+            
+            const targetTranslations = dictionary[langCode];
+            for (const key in targetTranslations) {
+                const domElement = document.querySelector(`[data-key="${key}"]`);
+                if (domElement) {
+                    domElement.innerHTML = targetTranslations[key];
+                }
+            }
+        }
+
+        function switchFrequency(element, fileName) {
+            const player = document.getElementById('deck-core');
+            const source = document.getElementById('audio-source');
+            
+            document.querySelectorAll('.audio-btn').forEach(btn => btn.classList.remove('active'));
+            element.classList.add('active');
+            
+            source.src = fileName;
+            player.load();
+            player.play().catch(error => console.log("Audio pipeline loaded."));
+        }
+    </script>
+</body>
+</html>
