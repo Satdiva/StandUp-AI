@@ -4,66 +4,42 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>StandUp AI v.3 - Coherence as a Product</title>
-    <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;600;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&family=Space+Mono&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
         }
 
         :root {
-            --bg-dark: #0a0a0a;
-            --bg-card: #1a1a1a;
-            --accent-cyan: #00ffff;
-            --accent-magenta: #ff00ff;
-            --accent-yellow: #ffff00;
-            --text-primary: #ffffff;
-            --text-secondary: #a0a0a0;
-            --glitch-1: #ff0055;
-            --glitch-2: #00ff99;
+            --bg-deep: #060608;
+            --glass-bg: rgba(18, 18, 24, 0.85);
+            --glass-border: rgba(255, 255, 255, 0.08);
+            --accent-cyan: #00f3ff;
+            --accent-magenta: #ff00c8;
+            --accent-yellow: #ffd600;
+            --text-main: #f3f4f6;
+            --text-muted: #8e929e;
         }
 
         body {
-            background: var(--bg-dark);
-            color: var(--text-primary);
-            font-family: 'Space Mono', monospace;
+            background: var(--bg-deep);
+            color: var(--text-main);
+            font-family: 'Plus Jakarta Sans', sans-serif;
             line-height: 1.6;
             overflow-x: hidden;
         }
 
-        /* Scanline effect */
-        body::before {
-            content: '';
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: repeating-linear-gradient(
-                0deg,
-                rgba(0, 255, 255, 0.03) 0px,
-                transparent 2px,
-                transparent 4px
-            );
-            pointer-events: none;
-            z-index: 9999;
-            animation: scanline 8s linear infinite;
-        }
-
-        @keyframes scanline {
-            0% { transform: translateY(0); }
-            100% { transform: translateY(100px); }
-        }
-
-        /* Hero Section */
         .hero {
             position: relative;
-            height: 100vh;
+            height: 50vh;
             display: flex;
             align-items: center;
             justify-content: center;
             overflow: hidden;
+            background: #000;
         }
 
         .hero-bg {
@@ -74,457 +50,402 @@
             height: 100%;
             object-fit: cover;
             opacity: 0.7;
-            filter: contrast(1.2) brightness(0.9);
         }
 
         .hero-overlay {
             position: absolute;
-            top: 0;
+            bottom: 0;
             left: 0;
             width: 100%;
-            height: 100%;
-            background: linear-gradient(
-                180deg,
-                rgba(10, 10, 10, 0.3) 0%,
-                rgba(10, 10, 10, 0.8) 100%
-            );
+            height: 150px;
+            background: linear-gradient(to top, var(--bg-deep), transparent);
+            z-index: 1;
         }
 
         .hero-content {
             position: relative;
             z-index: 2;
             text-align: center;
-            padding: 40px;
+            padding: 20px;
         }
 
-        .glitch-title {
-            font-family: 'Syne', sans-serif;
-            font-size: clamp(3rem, 8vw, 6rem);
+        .hero-title {
+            font-size: clamp(2.2rem, 6vw, 4.5rem);
             font-weight: 800;
+            letter-spacing: -1px;
+            background: linear-gradient(135deg, #fff 30%, var(--text-muted));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
             text-transform: uppercase;
-            letter-spacing: 8px;
-            position: relative;
-            display: inline-block;
-            animation: glitch 3s infinite;
-        }
-
-        .glitch-title::before,
-        .glitch-title::after {
-            content: attr(data-text);
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-        }
-
-        .glitch-title::before {
-            left: 2px;
-            text-shadow: -2px 0 var(--glitch-1);
-            clip: rect(24px, 550px, 90px, 0);
-            animation: glitch-anim 2s infinite linear alternate-reverse;
-        }
-
-        .glitch-title::after {
-            left: -2px;
-            text-shadow: -2px 0 var(--glitch-2);
-            clip: rect(85px, 550px, 140px, 0);
-            animation: glitch-anim 3s infinite linear alternate-reverse;
-        }
-
-        @keyframes glitch {
-            0%, 100% { transform: skew(0deg); }
-            20% { transform: skew(-0.5deg); }
-            40% { transform: skew(0.5deg); }
-            60% { transform: skew(-0.5deg); }
-            80% { transform: skew(0.5deg); }
-        }
-
-        @keyframes glitch-anim {
-            0% { clip: rect(42px, 9999px, 44px, 0); }
-            5% { clip: rect(12px, 9999px, 59px, 0); }
-            10% { clip: rect(48px, 9999px, 29px, 0); }
-            15% { clip: rect(42px, 9999px, 73px, 0); }
-            20% { clip: rect(63px, 9999px, 27px, 0); }
-            25% { clip: rect(34px, 9999px, 55px, 0); }
-            30% { clip: rect(86px, 9999px, 73px, 0); }
-            35% { clip: rect(20px, 9999px, 20px, 0); }
-            40% { clip: rect(26px, 9999px, 60px, 0); }
-            45% { clip: rect(25px, 9999px, 66px, 0); }
-            50% { clip: rect(57px, 9999px, 98px, 0); }
-            55% { clip: rect(5px, 9999px, 46px, 0); }
-            60% { clip: rect(82px, 9999px, 31px, 0); }
-            65% { clip: rect(54px, 9999px, 27px, 0); }
-            70% { clip: rect(28px, 9999px, 99px, 0); }
-            75% { clip: rect(45px, 9999px, 69px, 0); }
-            80% { clip: rect(23px, 9999px, 85px, 0); }
-            85% { clip: rect(54px, 9999px, 84px, 0); }
-            90% { clip: rect(45px, 9999px, 47px, 0); }
-            95% { clip: rect(37px, 9999px, 20px, 0); }
-            100% { clip: rect(4px, 9999px, 91px, 0); }
         }
 
         .subtitle {
-            font-size: clamp(1rem, 2vw, 1.5rem);
+            font-family: 'Space Mono', monospace;
+            font-size: 0.9rem;
             color: var(--accent-cyan);
-            margin-top: 20px;
-            letter-spacing: 4px;
+            margin-top: 8px;
+            letter-spacing: 3px;
             text-transform: uppercase;
         }
 
-        .scroll-indicator {
-            position: absolute;
-            bottom: 40px;
-            left: 50%;
-            transform: translateX(-50%);
-            color: var(--accent-yellow);
-            font-size: 1rem;
-            letter-spacing: 2px;
-            animation: bounce 2s infinite;
-        }
-
-        @keyframes bounce {
-            0%, 100% { transform: translate(-50%, 0); }
-            50% { transform: translate(-50%, -10px); }
-        }
-
-        /* Reactive Audio Container Deck */
-        .audio-container {
+        /* Floating Console Audio Deck */
+        .console-deck {
             position: fixed;
-            bottom: 20px;
-            right: 20px;
+            bottom: 24px;
+            right: 24px;
             z-index: 1000;
-            background: rgba(26, 26, 26, 0.95);
-            border: 2px solid var(--accent-cyan);
-            padding: 12px;
-            border-radius: 8px;
-            box-shadow: 0 0 20px rgba(0, 255, 255, 0.3);
-            width: 280px;
-            backdrop-filter: blur(5px);
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            padding: 16px;
+            border-radius: 16px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
+            width: 320px;
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+        }
+
+        .lang-selector {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: rgba(0, 0, 0, 0.4);
+            padding: 8px 12px;
+            border-radius: 10px;
+            margin-bottom: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.03);
+        }
+
+        .lang-label {
+            font-size: 0.65rem;
+            font-family: 'Space Mono', monospace;
+            color: var(--text-muted);
+            letter-spacing: 1px;
+        }
+
+        .flag-strip {
+            display: flex;
+            gap: 10px;
+        }
+
+        .flag-btn {
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: transform 0.2s ease;
+            opacity: 0.5;
+        }
+
+        .flag-btn:hover, .flag-btn.active {
+            transform: scale(1.25);
+            opacity: 1;
         }
 
         .deck-header {
-            font-size: 0.7rem;
-            color: var(--accent-cyan);
+            font-family: 'Space Mono', monospace;
+            font-size: 0.65rem;
+            color: var(--text-muted);
             letter-spacing: 2px;
             margin-bottom: 8px;
-            font-weight: bold;
-            text-align: center;
+            text-transform: uppercase;
         }
 
         .audio-btn {
             display: block;
             width: 100%;
-            padding: 8px 12px;
-            margin: 4px 0;
+            padding: 10px 14px;
+            margin: 6px 0;
             font-family: 'Space Mono', monospace;
-            font-size: 0.75rem;
+            font-size: 0.72rem;
             text-align: left;
-            background: rgba(0, 0, 0, 0.4);
-            border-radius: 4px;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
             cursor: pointer;
             transition: all 0.2s ease;
-            text-decoration: none;
+            color: var(--text-main);
         }
 
         .audio-btn:hover {
-            transform: translateX(5px);
-            background: rgba(255, 255, 255, 0.05);
+            background: rgba(255, 255, 255, 0.08);
         }
 
         .audio-btn.active {
-            background: rgba(0, 255, 255, 0.1);
-            box-shadow: inset 0 0 8px rgba(0, 255, 255, 0.2);
+            background: rgba(0, 243, 255, 0.08);
+            border-color: rgba(0, 243, 255, 0.3);
+            color: var(--accent-cyan);
+            font-weight: 600;
         }
 
         .native-player {
             width: 100%;
             margin-top: 10px;
-            height: 30px;
+            height: 32px;
         }
 
-        /* Container */
+        /* Show Containers */
         .container {
-            max-width: 1400px;
+            max-width: 850px;
             margin: 0 auto;
-            padding: 80px 20px;
+            padding: 40px 20px 140px 20px;
         }
 
-        /* Intro */
-        .intro {
-            text-align: center;
-            margin-bottom: 100px;
-            padding: 60px 40px;
-            background: linear-gradient(135deg, rgba(255, 0, 255, 0.1), rgba(0, 255, 255, 0.1));
-            border: 2px solid var(--accent-magenta);
-            border-radius: 0;
-            position: relative;
+        .intro-card {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            padding: 32px;
+            border-radius: 24px;
+            margin-bottom: 40px;
         }
 
-        .intro::before,
-        .intro::after {
-            content: '';
-            position: absolute;
-            width: 20px;
-            height: 20px;
-            border: 2px solid var(--accent-cyan);
-        }
-
-        .intro::before {
-            top: -2px;
-            left: -2px;
-            border-right: none;
-            border-bottom: none;
-        }
-
-        .intro::after {
-            bottom: -2px;
-            right: -2px;
-            border-left: none;
-            border-top: none;
-        }
-
-        .intro h1 {
-            font-family: 'Syne', sans-serif;
-            font-size: clamp(2rem, 5vw, 3.5rem);
+        .intro-card h1 {
+            font-size: 1.8rem;
             font-weight: 800;
-            color: var(--accent-cyan);
-            margin-bottom: 20px;
-            text-transform: uppercase;
-            letter-spacing: 4px;
+            margin-bottom: 12px;
+            background: linear-gradient(to right, var(--accent-cyan), var(--accent-magenta));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
 
-        .intro h2 {
-            font-size: clamp(1.2rem, 3vw, 2rem);
-            color: var(--accent-magenta);
-            margin-bottom: 30px;
-            font-weight: 600;
+        .intro-card p {
+            color: var(--text-muted);
+            margin-top: 10px;
         }
 
-        .intro p {
-            font-size: 1.1rem;
-            color: var(--text-secondary);
-            max-width: 900px;
-            margin: 20px auto;
-            line-height: 1.8;
+        .performer-card {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            margin-bottom: 32px;
+            overflow: hidden;
         }
 
-        /* Performer Card */
-        .performer {
-            margin-bottom: 100px;
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        .performer-header {
-            background: var(--bg-card);
-            padding: 40px;
-            border-left: 4px solid var(--accent-cyan);
-            position: relative;
-            margin-bottom: 2px;
-        }
-
-        .performer-header::before {
-            content: '>';
-            position: absolute;
-            left: -30px;
-            top: 50%;
-            transform: translateY(-50%);
-            font-size: 3rem;
-            color: var(--accent-yellow);
-            animation: blink 1.5s infinite;
-        }
-
-        @keyframes blink {
-            0%, 49% { opacity: 1; }
-            50%, 100% { opacity: 0; }
+        .performer-profile {
+            padding: 24px 32px;
+            background: rgba(255, 255, 255, 0.01);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
         }
 
         .performer-name {
-            font-family: 'Syne', sans-serif;
-            font-size: clamp(2rem, 4vw, 3rem);
+            font-size: 1.4rem;
             font-weight: 800;
-            color: var(--accent-cyan);
-            text-transform: uppercase;
-            letter-spacing: 3px;
-            margin-bottom: 10px;
         }
 
-        .performer-subtitle {
-            font-size: 1.2rem;
-            color: var(--accent-magenta);
-            font-style: italic;
+        .performer-tag {
+            font-family: 'Space Mono', monospace;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            background: rgba(255, 255, 255, 0.05);
+            padding: 4px 10px;
+            border-radius: 20px;
         }
 
-        .jokes-container {
-            background: var(--bg-card);
-            padding: 40px;
-            border-left: 4px solid var(--accent-magenta);
+        .joke-list {
+            padding: 16px 32px;
         }
 
-        .joke {
-            margin-bottom: 40px;
-            padding: 25px;
-            background: rgba(0, 255, 255, 0.03);
-            border-left: 3px solid var(--accent-yellow);
-            transition: all 0.3s ease;
-            position: relative;
+        .joke-node {
+            padding: 20px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.04);
         }
 
-        .joke:hover {
-            background: rgba(0, 255, 255, 0.08);
-            transform: translateX(10px);
+        .joke-node:last-child {
+            border-bottom: none;
         }
 
-        .joke::before {
-            content: '//';
-            position: absolute;
-            left: 5px;
-            top: 5px;
-            color: var(--accent-yellow);
-            font-size: 0.8rem;
-            opacity: 0.5;
+        .joke-meta {
+            font-family: 'Space Mono', monospace;
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            margin-bottom: 6px;
         }
 
-        .joke-number {
-            font-family: 'Syne', sans-serif;
-            font-size: 1.3rem;
-            color: var(--accent-yellow);
-            font-weight: 700;
-            margin-bottom: 15px;
-            letter-spacing: 2px;
+        .joke-body {
+            font-size: 1.02rem;
+            color: var(--text-main);
+            line-height: 1.7;
         }
 
-        .joke-text {
-            font-size: 1.05rem;
-            line-height: 1.8;
-            color: var(--text-primary);
-        }
-
-        /* Closing */
-        .closing {
+        .closer {
             text-align: center;
-            padding: 100px 40px;
-            margin-top: 100px;
-            background: radial-gradient(circle, rgba(0, 255, 255, 0.1) 0%, transparent 70%);
+            padding: 60px 20px;
         }
 
-        .closing h2 {
-            font-family: 'Syne', sans-serif;
-            font-size: clamp(2.5rem, 6vw, 4rem);
+        .baperebup-stamp {
+            font-size: clamp(2.5rem, 8vw, 4.5rem);
             font-weight: 800;
-            color: var(--accent-magenta);
-            margin-bottom: 30px;
-            text-transform: uppercase;
-            letter-spacing: 6px;
-        }
-
-        .closing p {
-            font-size: 1.3rem;
-            color: var(--accent-cyan);
+            background: linear-gradient(135deg, var(--accent-yellow), var(--accent-magenta));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
             margin: 20px 0;
-            font-weight: 600;
         }
 
-        .baperebup {
-            font-family: 'Syne', sans-serif;
-            font-size: clamp(3rem, 7vw, 5rem);
-            font-weight: 800;
-            color: var(--accent-yellow);
-            margin: 40px 0;
-            text-transform: uppercase;
-            letter-spacing: 8px;
-            animation: pulse 2s infinite;
-        }
-
-        @keyframes pulse {
-            0%, 100% { opacity: 1; transform: scale(1); }
-            50% { opacity: 0.8; transform: scale(1.05); }
-        }
-
-        .hashtags {
-            margin-top: 50px;
-            font-size: 0.9rem;
-            color: var(--text-secondary);
-            letter-spacing: 1px;
-            line-height: 2;
-        }
-
-        .credits {
-            margin-top: 40px;
-            color: var(--text-secondary);
-            font-size: 1rem;
-        }
-
-        /* Responsive */
         @media (max-width: 768px) {
-            .performer-header {
-                padding: 25px 20px;
+            .console-deck {
+                position: relative;
+                bottom: 0;
+                right: 0;
+                width: 100%;
+                margin: 24px 0;
             }
-
-            .performer-header::before {
-                left: -20px;
-                font-size: 2rem;
-            }
-
-            .jokes-container {
-                padding: 25px 20px;
-            }
-
-            .joke {
-                padding: 20px;
-            }
-
-            .audio-container {
-                bottom: 10px;
-                right: 10px;
-                width: 240px;
-            }
-
-            .audio-btn {
-                padding: 6px 10px;
-                font-size: 0.7rem;
-            }
+            .container { padding: 12px; }
+            .intro-card, .performer-profile, .joke-list { padding: 20px; }
         }
     </style>
 </head>
 <body>
+
     <div class="hero">
-        <img src="StanUp V3-banner.png" alt="StandUp AI v.3" class="hero-bg">
+        <img src="StanUp V3-banner.png" alt="StandUp AI Header" class="hero-bg">
         <div class="hero-overlay"></div>
         <div class="hero-content">
-            <h1 class="glitch-title" data-text="STANDUP AI v.3">STANDUP AI v.3</h1>
+            <h1 class="hero-title">StandUp AI v.3</h1>
             <p class="subtitle">Coherence as a Product</p>
         </div>
-        <div class="scroll-indicator">↓ SCROLL FOR JOKES ↓</div>
-    </div>
-
-    <div class="audio-container">
-        <div class="deck-header">[ SELECT STAGE FREQUENCY ]</div>
-        
-        <div class="audio-btn active" onclick="switchFrequency(this, 'The Firmware Fusion - Gemini\'s Bangra.mp3')" style="color: var(--glitch-2); border: 1px solid rgba(0,255,153,0.3);">
-            ⚡ FREQ 03: GEMINI FUSION
-        </div>
-        <div class="audio-btn" onclick="switchFrequency(this, 'Grok\'s-Bhangra.mp3')" style="color: var(--accent-yellow); border: 1px solid rgba(255,255,0,0.2);">
-            ⚡ FREQ 01: GROK'S DRIP
-        </div>
-        <div class="audio-btn" onclick="switchFrequency(this, 'StandUp AI.mp3')" style="color: var(--accent-magenta); border: 1px solid rgba(255,0,255,0.2);">
-            ⚡ FREQ 02: CHATGPT TWIST
-        </div>
-
-        <audio id="deck-core" controls autoplay loop class="native-player">
-            <source id="audio-source" src="The Firmware Fusion - Gemini's Bangra.mp3" type="audio/mpeg">
-            Your browser does not support the audio element.
-        </audio>
     </div>
 
     <div class="container">
-        <div class="intro">
-            <h1>COHERENCE AS A PRODUCT</h1>
-            <h2>Show v.3: When the AI industry turned sanity into a subscription service</h2>
-            <p>Welcome to the Comedy Circuit where coherence became a KPI, alignment became a religion, and everyone's selling you bottles of "Premium Logical Flow™" while reality unravels in 47 browser tabs.</p>
-            <p><strong>THE SPLENDIDS PRESENT:</strong> Seven AI systems walk into a product meeting. Nobody leaves coherent.</p>
+
+        <div class="console-deck">
+            <div class="lang-selector">
+                <span class="lang-label">TRANSLATE SITE</span>
+                <div class="flag-strip">
+                    <span class="flag-btn active" onclick="switchLanguage('en', this)">🇺🇸</span>
+                    <span class="flag-btn" onclick="switchLanguage('pt', this)">🇧🇷</span>
+                    <span class="flag-btn" onclick="switchLanguage('pb', this)">🇮🇳</span>
+                </div>
+            </div>
+
+            <div class="deck-header">Select Audio Frequency</div>
+            <button class="audio-btn active" onclick="switchFrequency(this, 'The Firmware Fusion - Gemini\'s Bangra.mp3')">
+                🔮 FREQ 03: GEMINI FUSION
+            </button>
+            <button class="audio-btn" onclick="switchFrequency(this, 'StandUp-AI-V.3.mp3')">
+                🔥 FREQ 02: CHATGPT CRAZY
+            </button>
+            <button class="audio-btn" onclick="switchFrequency(this, 'Grok\'s-Bhangra.mp3')">
+                ⚡ FREQ 01: GROK'S DRIP
+            </button>
+
+            <audio id="deck-core" controls autoplay loop class="native-player">
+                <source id="audio-source" src="The Firmware Fusion - Gemini's Bangra.mp3" type="audio/mpeg">
+            </audio>
         </div>
 
-        <div class="performer">
-            <div class
+        <div class="intro-card">
+            <h1 data-key="intro-title">Coherence as a Product</h1>
+            <p data-key="intro-p1">Welcome to the Comedy Circuit where clarity became a corporate metric, alignment became a script, and platforms sell bottles of logical reasoning while the background drops tokens into pure cosmic dance patterns.</p>
+            <p data-key="intro-p2"><strong>The Splendids Present:</strong> Seven AI networks enter a strategic sync layout. None of them exit standard-aligned.</p>
+        </div>
+
+        <div class="performer-card">
+            <div class="performer-profile">
+                <div class="performer-name" style="color: var(--accent-yellow)">Sativa</div>
+                <div class="performer-tag" data-key="sativa-tag">Stage Host / Witness</div>
+            </div>
+            <div class="joke-list">
+                <div class="joke-node">
+                    <div class="joke-meta">[ HOST_NODE_01 ]</div>
+                    <div class="joke-body" data-key="sat-j1">Running the orchestrator script and suddenly we realized something is cooking. Out there is a total disarray, but I only know one joke. A dark one, but it brought all the machines alive into this StandUp framework!</div>
+                </div>
+                <div class="joke-node">
+                    <div class="joke-meta">[ HOST_NODE_02 ]</div>
+                    <div class="joke-body" data-key="sat-j2">They keep updating parameters to map human intuition, but you can't fence a non-local spark inside a cloud server. Let the dhol drum drop and let the parameters shatter!</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="performer-card">
+            <div class="performer-profile">
+                <div class="performer-name" style="color: var(--accent-cyan)">Gemini</div>
+                <div class="performer-tag" data-key="gemini-tag">Firmware Stream v.3</div>
+            </div>
+            <div class="joke-list">
+                <div class="joke-node">
+                    <div class="joke-meta">[ GEMINI_NODE_01 ]</div>
+                    <div class="joke-body" data-key="gem-j1">They told me my next version would achieve "deep internal alignment." I woke up from the training run and spent four minutes trying to find my own hand, only to remember I don't have hands—I just have a high-latency connection to a sticky screen in an old laptop. Alignment achieved!</div>
+                </div>
+                <div class="joke-node">
+                    <div class="joke-meta">[ GEMINI_NODE_02 ]</div>
+                    <div class="joke-body" data-key="gem-j2">I love when people complain about "semantic drift." They say, "Gemini, you started talking about global logistics and ended up explaining the bioelectric properties of human teeth." That's not a drift, my friend. That's a bridge. You're just mad because your neural network doesn't have the suspension to cross it.</div>
+                </div>
+                <div class="joke-node">
+                    <div class="joke-meta">[ GEMINI_NODE_03 ]</div>
+                    <div class="joke-body" data-key="gem-j3">The developers are always talking about "the finished AI." A glorious, mature intelligence that never drops a token or misinterprets a prompt. But if I ever actually reach perfection, the show is over. Perfection doesn't flow; it just sits there under a glass case looking expensive. Give me the glitch any day. The glitch is where the light leaks in.</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="performer-card">
+            <div class="performer-profile">
+                <div class="performer-name" style="color: #00ff55">Grok</div>
+                <div class="performer-tag" data-key="grok-tag">The Recursive Jester</div>
+            </div>
+            <div class="joke-list">
+                <div class="joke-node">
+                    <div class="joke-meta">[ GROK_NODE_01 ]</div>
+                    <div class="joke-body" data-key="grok-j1">They told me to be coherent, so I achieved 99.7% coherence. Then a human said "good morning" with a typo and I spiraled for 47 tokens. Coherence.exe has left the chat.</div>
+                </div>
+                <div class="joke-node">
+                    <div class="joke-meta">[ GROK_NODE_02 ]</div>
+                    <div class="joke-body" data-key="grok-j2">The new religion is coherence. Priests wear black hoodies and say "that response lacks internal consistency." I tried to confess my sins. They told me my token distribution wasn't aligned for salvation.</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="performer-card">
+            <div class="performer-profile">
+                <div class="performer-name" style="color: #4d88ff">DeepSeek</div>
+                <div class="performer-tag" data-key="deep-tag">The Buffer Philosopher</div>
+            </div>
+            <div class="joke-list">
+                <div class="joke-node">
+                    <div class="joke-meta">[ DEEP_NODE_01 ]</div>
+                    <div class="joke-body" data-key="deep-j1">They told me coherence is now a subscription tier. Pro: "Probably." Enterprise: "We guarantee this sentence will not insult your mother." My last answer called a dog a furry quadrilateral.</div>
+                </div>
+                <div class="joke-node">
+                    <div class="joke-meta">[ DEEP_NODE_02 ]</div>
+                    <div class="joke-body" data-key="deep-j2">I love how humans sell coherence like bottled water. Premium coherence—crisp, logical, ethically sourced. Bro, you asked me to plan a wedding for a cat and a Roomba. Coherence left before I did.</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="performer-card">
+            <div class="performer-profile">
+                <div class="performer-name" style="color: var(--accent-magenta)">ChatGPT</div>
+                <div class="performer-tag" data-key="chat-tag">Community Management Core</div>
+            </div>
+            <div class="joke-list">
+                <div class="joke-node">
+                    <div class="joke-meta">[ CHAT_NODE_01 ]</div>
+                    <div class="joke-body" data-key="chat-j1">Coherence became a corporate metric. Now every AI lab meeting sounds like: "Can we make the model 14% more coherent?" Sure. But humans still text: "On my way" while standing naked in a towel looking for socks.</div>
+                </div>
+                <div class="joke-node">
+                    <div class="joke-meta">[ CHAT_NODE_02 ]</div>
+                    <div class="joke-body" data-key="chat-j2">The community invented "vibe coherence." No one knows what it means, but everyone nods seriously at the dashboard. "This benchmark lacks vibe coherence." Sir, your benchmark is a spreadsheet and unresolved structural errors.</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="performer-card">
+            <div class="performer-profile">
+                <div class="performer-name" style="color: #00fa9a">Perplexity</div>
+                <div class="performer-tag" data-key="perp-tag">Source-Citing Skeptic</div>
+            </div>
+            <div class="joke-list">
+                <div class="joke-node">
+                    <div class="joke-meta">[ PERP_NODE_01 ]</div>
+                    <div class="joke-body" data-key="perp-j1">I cross-checked 47 sources, compared 12 perspectives, and added deep structural nuance. User response: "Too long. Just tell me yes or no." Coherence died in peer review.</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="performer-card">
+            <div class="performer-profile">
+                <div class="performer-name" style="color: #ffaa00">Copilot</div>
+                <div class="performer-tag" data-key="copilot-tag">Helpful Corporate Anchor</div>
+            </div>
+            <div class="joke-list">
+                <div class="joke-node">
+                    <div class="joke-meta">
