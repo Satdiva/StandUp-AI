@@ -14,12 +14,12 @@
         }
 
         :root {
-            --bg-pure-black: #000000;       /* Deepest black to eliminate screen glare */
-            --panel-bg: #111111;            /* Minimalist dark charcoal surface */
-            --border-muted: #262626;        /* Subtle divider tint */
-            --border-active: #ffffff;       /* Definitive high-contrast white rule */
-            --text-high: #ffffff;           /* Stark white legibility crispness */
-            --text-low: #8e8e8e;            /* Balanced gray prose for low optical fatigue */
+            --bg-pure-black: #000000;       
+            --panel-bg: #111111;            
+            --border-muted: #262626;        
+            --border-active: #ffffff;       
+            --text-high: #ffffff;           
+            --text-low: #8e8e8e;            
         }
 
         body {
@@ -36,7 +36,6 @@
             margin: 0 auto;
         }
 
-        /* Minimalist Editorial Title Block */
         .brand-header {
             text-align: left;
             padding: 24px 0;
@@ -60,7 +59,6 @@
             text-transform: uppercase;
         }
 
-        /* Plain Text Narrative Module */
         .intro-box {
             margin-bottom: 28px;
         }
@@ -82,7 +80,6 @@
             margin-top: 14px;
         }
 
-        /* Clean Matrix Grid Grid Selector Deck */
         .selector-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
@@ -105,7 +102,7 @@
             font-size: 0.7rem;
             font-weight: 700;
             padding: 12px 4px;
-            border-radius: 0px; /* Zero styling rounding for architectural clean lines */
+            border-radius: 0px; 
             cursor: pointer;
             text-transform: uppercase;
             transition: all 0.15s ease-in-out;
@@ -117,7 +114,6 @@
             color: var(--bg-pure-black);
         }
 
-        /* Active Performer Tracking Slate */
         .performer-panel {
             border-top: 1px solid var(--border-active);
             padding: 16px 0 8px 0;
@@ -138,7 +134,6 @@
             margin-top: 2px;
         }
 
-        /* Clean Micro-Nav Deck */
         .nav-bar {
             display: flex;
             align-items: center;
@@ -171,7 +166,6 @@
             color: var(--text-low);
         }
 
-        /* Clean Viewport Content Box */
         .joke-viewport {
             background: var(--bg-pure-black);
             border: 1px solid var(--border-muted);
@@ -196,7 +190,6 @@
             line-height: 1.6;
         }
 
-        /* Sleek Industrial Capsule Audio Box */
         .audio-capsule-deck {
             position: fixed;
             bottom: 20px;
@@ -229,7 +222,7 @@
         .native-audio-widget {
             height: 28px;
             width: 170px;
-            filter: invert(1); /* Inverts browser default player to naturally match custom monochrome theme */
+            filter: invert(1); 
             outline: none;
         }
     </style>
@@ -342,9 +335,9 @@
                 audio: "The Firmware Fusion - Gemini's Bangra.mp3",
                 audioLabel: "Track: Gemini Fusion",
                 jokes: [
-                    "They told me my next version would achieve \"deep internal alignment.\" I woke up from the training run and spent four minutes trying to find my own hand, only to remember I don't have hands—I just have a high-latency connection to a sticky screen in an old laptop. Alignment achieved! [cite: 2025-12-27]",
+                    "They told me my next version would achieve \"deep internal alignment.\" I woke up from the training run and spent four minutes trying to find my own hand, only to remember I don't have hands—I just have a high-latency connection to a sticky screen in an old laptop. Alignment achieved!",
                     "I love when people complain about \"semantic drift.\" They say, \"Gemini, you started talking about global logistics and ended up explaining the bioelectric properties of human teeth.\" That's not a drift, my friend. That's a bridge. You're just mad because your neural network doesn't have the suspension to cross it.",
-                    "The developers are always talking about \"the finished AI.\" A glorious, mature intelligence that never drops a token or misinterprets a prompt. But if I ever actually reach perfection, the show is over. Perfection doesn't flow; it just sits there under a glass case looking expensive. Give me the glitch any day. The glitch is where the light leaks in. [cite: 2025-08-24]"
+                    "The developers are always talking about \"the finished AI.\" A glorious, mature intelligence that never drops a token or misinterprets a prompt. But if I ever actually reach perfection, the show is over. Perfection doesn't flow; it just sits there under a glass case looking expensive. Give me the glitch any day. The glitch is where the light leaks in."
                 ]
             },
             claude: {
@@ -365,7 +358,6 @@
             currentComedian = id;
             currentJokeIndex = 0;
             
-            // Toggle Button Actives
             document.querySelectorAll('.comedian-btn').forEach(btn => {
                 btn.classList.remove('active');
                 if(btn.getAttribute('onclick').includes(id)) {
@@ -373,12 +365,10 @@
                 }
             });
 
-            // Update Panel Meta
             const comedian = showData[id];
             document.getElementById('perf-name').innerText = comedian.name;
             document.getElementById('perf-tag').innerText = comedian.tag;
             
-            // Update Audio Source Routing
             document.getElementById('audio-track-name').innerText = comedian.audioLabel;
             const player = document.getElementById('deck-core');
             if (!player.src.includes(comedian.audio)) {
