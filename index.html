@@ -1,134 +1,604 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
 <meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Comedy Deck v3 Interactive</title>
-
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>comedy-deck-v4</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
-    body {
-        margin: 0;
-        font-family: Arial, sans-serif;
-        background: #0f0f14;
-        color: white;
+:root {
+    --bg: #0f1110;
+    --surface: #151917;
+    --surface-2: #1b211e;
+    --surface-3: #232a26;
+    --line: rgba(220, 226, 221, 0.12);
+    --line-strong: rgba(220, 226, 221, 0.2);
+    --text: #f3f2ee;
+    --muted: #a1aaa3;
+    --faint: #6f7771;
+    --accent: #6eb7a7;
+    --accent-2: #9fd0c5;
+    --shadow: 0 24px 60px rgba(0, 0, 0, 0.28);
+    --radius-sm: 12px;
+    --radius-md: 18px;
+    --radius-lg: 26px;
+    --space-1: 4px;
+    --space-2: 8px;
+    --space-3: 12px;
+    --space-4: 16px;
+    --space-5: 20px;
+    --space-6: 24px;
+    --space-8: 32px;
+    --space-10: 40px;
+    --space-12: 48px;
+}
+
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; }
+body {
+    min-height: 100vh;
+    font-family: 'Inter', Arial, sans-serif;
+    background:
+        radial-gradient(circle at top, rgba(110, 183, 167, 0.08), transparent 28%),
+        linear-gradient(180deg, #0c0e0d 0%, #101311 100%);
+    color: var(--text);
+}
+
+a { color: inherit; }
+button, input { font: inherit; }
+
+.shell {
+    width: min(1120px, calc(100% - 32px));
+    margin: 24px auto;
+}
+
+.frame {
+    background: linear-gradient(180deg, rgba(24, 28, 26, 0.94), rgba(16, 18, 17, 0.98));
+    border: 1px solid var(--line);
+    border-radius: 32px;
+    overflow: hidden;
+    box-shadow: var(--shadow);
+}
+
+.skip-link {
+    position: absolute;
+    left: -9999px;
+}
+.skip-link:focus {
+    left: 12px;
+    top: 12px;
+    z-index: 20;
+    background: var(--text);
+    color: #000;
+    padding: 10px 14px;
+    border-radius: 10px;
+}
+
+.topbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-4);
+    padding: 18px 22px;
+    border-bottom: 1px solid var(--line);
+    background: rgba(255,255,255,0.02);
+}
+
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    min-width: 0;
+}
+
+.logo {
+    width: 42px;
+    height: 42px;
+    border-radius: 14px;
+    display: grid;
+    place-items: center;
+    background: linear-gradient(180deg, rgba(110,183,167,0.18), rgba(110,183,167,0.06));
+    border: 1px solid rgba(110,183,167,0.28);
+    color: var(--accent-2);
+    flex: 0 0 auto;
+}
+
+.brand-copy {
+    min-width: 0;
+}
+
+.eyebrow {
+    color: var(--muted);
+    font-size: 12px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    margin-bottom: 3px;
+}
+
+.brand h1 {
+    margin: 0;
+    font-size: clamp(28px, 4vw, 42px);
+    line-height: 1;
+    font-weight: 500;
+    font-family: 'Instrument Serif', Georgia, serif;
+    letter-spacing: 0.01em;
+}
+
+.status-pill {
+    white-space: nowrap;
+    border: 1px solid var(--line);
+    background: rgba(255,255,255,0.03);
+    border-radius: 999px;
+    padding: 10px 14px;
+    color: var(--muted);
+    font-size: 13px;
+}
+
+.hero {
+    display: grid;
+    grid-template-columns: 1.08fr 0.92fr;
+    gap: 0;
+}
+
+.hero-copy {
+    padding: 34px 34px 30px;
+    border-right: 1px solid var(--line);
+}
+
+.kicker {
+    color: var(--accent-2);
+    text-transform: uppercase;
+    letter-spacing: 0.16em;
+    font-size: 12px;
+    margin-bottom: 16px;
+}
+
+.hero-copy h2 {
+    margin: 0 0 16px;
+    font-family: 'Instrument Serif', Georgia, serif;
+    font-size: clamp(38px, 6vw, 66px);
+    line-height: 0.98;
+    font-weight: 500;
+    max-width: 9ch;
+}
+
+.hero-copy p {
+    margin: 0;
+    max-width: 58ch;
+    color: var(--muted);
+    font-size: 16px;
+    line-height: 1.65;
+}
+
+.hero-panel {
+    padding: 34px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 18px;
+    background:
+        linear-gradient(180deg, rgba(255,255,255,0.015), rgba(255,255,255,0.01)),
+        radial-gradient(circle at 85% 15%, rgba(110,183,167,0.12), transparent 35%);
+}
+
+.panel-label {
+    color: var(--faint);
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    font-size: 12px;
+}
+
+.persona-display {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 10px;
+    padding-bottom: 14px;
+    border-bottom: 1px solid var(--line);
+}
+
+.persona-display h3 {
+    margin: 0;
+    font-size: clamp(22px, 3vw, 30px);
+    line-height: 1.1;
+    font-weight: 600;
+}
+
+.persona-display span {
+    color: var(--muted);
+    font-size: 14px;
+}
+
+.deck-note {
+    color: var(--muted);
+    line-height: 1.7;
+    font-size: 15px;
+}
+
+.content {
+    display: grid;
+    grid-template-columns: 260px 1fr;
+    min-height: 520px;
+}
+
+.sidebar {
+    border-right: 1px solid var(--line);
+    padding: 24px 20px 24px 24px;
+    background: rgba(255,255,255,0.015);
+}
+
+.sidebar-title {
+    margin: 0 0 14px;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--faint);
+}
+
+.comedian-list {
+    display: grid;
+    gap: 10px;
+}
+
+.comedian {
+    width: 100%;
+    text-align: left;
+    padding: 14px 14px;
+    border-radius: 16px;
+    border: 1px solid var(--line);
+    color: var(--muted);
+    background: transparent;
+    cursor: pointer;
+    transition: transform 160ms ease, border-color 160ms ease, background 160ms ease, color 160ms ease;
+    min-height: 48px;
+}
+
+.comedian:hover,
+.comedian:focus-visible {
+    border-color: rgba(110,183,167,0.35);
+    color: var(--text);
+    background: rgba(110,183,167,0.08);
+    outline: none;
+}
+
+.comedian.active {
+    color: var(--text);
+    background: linear-gradient(180deg, rgba(110,183,167,0.14), rgba(110,183,167,0.07));
+    border-color: rgba(110,183,167,0.34);
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.04);
+}
+
+.stage {
+    padding: 28px;
+    display: grid;
+    align-content: start;
+    gap: 18px;
+}
+
+.meta-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 14px;
+    flex-wrap: wrap;
+}
+
+.meta-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    border: 1px solid var(--line);
+    background: rgba(255,255,255,0.02);
+    border-radius: 999px;
+    padding: 10px 14px;
+    color: var(--muted);
+    font-size: 13px;
+}
+
+.dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 999px;
+    background: var(--accent);
+    box-shadow: 0 0 0 6px rgba(110,183,167,0.12);
+}
+
+.joke-card {
+    min-height: 320px;
+    border-radius: 28px;
+    border: 1px solid var(--line-strong);
+    background:
+        linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01)),
+        linear-gradient(145deg, rgba(110,183,167,0.05), transparent 24%);
+    padding: clamp(24px, 4vw, 42px);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 20px;
+    position: relative;
+    overflow: hidden;
+}
+
+.joke-card::before {
+    content: "“";
+    position: absolute;
+    top: 18px;
+    right: 24px;
+    font-family: 'Instrument Serif', Georgia, serif;
+    font-size: 96px;
+    line-height: 1;
+    color: rgba(255,255,255,0.05);
+}
+
+.joke-persona {
+    position: relative;
+    z-index: 1;
+    color: var(--accent-2);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    font-size: 12px;
+}
+
+.joke-text {
+    position: relative;
+    z-index: 1;
+    margin: 0;
+    font-family: 'Instrument Serif', Georgia, serif;
+    font-size: clamp(28px, 4.6vw, 46px);
+    line-height: 1.16;
+    letter-spacing: 0.01em;
+    max-width: 16ch;
+    text-wrap: balance;
+}
+
+.joke-footer {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 14px;
+    flex-wrap: wrap;
+    padding-top: 18px;
+    border-top: 1px solid var(--line);
+}
+
+.joke-index {
+    color: var(--muted);
+    font-size: 14px;
+}
+
+.joke-caption {
+    color: var(--faint);
+    font-size: 13px;
+}
+
+.controls {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+}
+
+.control-group {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.btn {
+    min-height: 48px;
+    padding: 12px 18px;
+    border-radius: 14px;
+    border: 1px solid var(--line);
+    cursor: pointer;
+    transition: transform 160ms ease, border-color 160ms ease, background 160ms ease, color 160ms ease;
+}
+
+.btn:hover,
+.btn:focus-visible {
+    transform: translateY(-1px);
+    outline: none;
+}
+
+.btn-primary {
+    background: var(--accent);
+    border-color: rgba(110,183,167,0.45);
+    color: #0d1411;
+    font-weight: 700;
+}
+
+.btn-primary:hover,
+.btn-primary:focus-visible {
+    background: var(--accent-2);
+}
+
+.btn-secondary {
+    background: rgba(255,255,255,0.03);
+    color: var(--text);
+}
+
+.btn-secondary:hover,
+.btn-secondary:focus-visible {
+    border-color: rgba(110,183,167,0.34);
+    background: rgba(110,183,167,0.07);
+}
+
+.bottom-note {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    flex-wrap: wrap;
+    padding: 0 28px 26px;
+    color: var(--faint);
+    font-size: 12px;
+    letter-spacing: 0.04em;
+}
+
+@media (max-width: 920px) {
+    .hero,
+    .content {
+        grid-template-columns: 1fr;
     }
 
-    .banner {
-        padding: 20px;
-        text-align: center;
-        background: linear-gradient(90deg, #6a11cb, #2575fc);
-        font-size: 20px;
-        font-weight: bold;
+    .hero-copy {
+        border-right: 0;
+        border-bottom: 1px solid var(--line);
     }
 
-    .container {
-        padding: 15px;
-        max-width: 800px;
-        margin: auto;
+    .sidebar {
+        border-right: 0;
+        border-bottom: 1px solid var(--line);
+    }
+}
+
+@media (max-width: 640px) {
+    .shell {
+        width: min(100% - 16px, 100%);
+        margin: 8px auto;
     }
 
-    .comedian-bar {
-        display: flex;
-        gap: 8px;
-        flex-wrap: wrap;
-        margin-bottom: 15px;
+    .frame {
+        border-radius: 22px;
     }
 
-    .comedian {
-        padding: 8px 12px;
-        background: #1c1c26;
-        border-radius: 10px;
-        cursor: pointer;
-        font-size: 14px;
-        transition: 0.2s;
+    .topbar,
+    .hero-copy,
+    .hero-panel,
+    .sidebar,
+    .stage {
+        padding-left: 18px;
+        padding-right: 18px;
     }
 
-    .comedian.active {
-        background: #2575fc;
+    .topbar {
+        align-items: flex-start;
+        flex-direction: column;
     }
 
-    .joke-box {
-        background: #1a1a22;
-        padding: 20px;
-        border-radius: 12px;
-        min-height: 120px;
-        font-size: 18px;
-        line-height: 1.4;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        text-align: center;
+    .joke-card {
+        min-height: 280px;
+        border-radius: 22px;
     }
 
-    .controls {
-        display: flex;
-        justify-content: space-between;
-        margin-top: 15px;
+    .joke-text {
+        max-width: 100%;
     }
 
-    button {
-        padding: 10px 15px;
-        border: none;
-        border-radius: 8px;
-        cursor: pointer;
-        background: #2575fc;
-        color: white;
-        font-size: 14px;
+    .bottom-note {
+        padding: 0 18px 18px;
     }
+}
 
-    button:active {
-        transform: scale(0.97);
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        animation: none !important;
+        transition: none !important;
+        scroll-behavior: auto !important;
     }
-
-    .footer {
-        margin-top: 25px;
-        font-size: 12px;
-        opacity: 0.7;
-        text-align: center;
-    }
+}
 </style>
 </head>
-
 <body>
+<a class="skip-link" href="#main">Skip to content</a>
+<div class="shell">
+    <div class="frame">
+        <header class="topbar">
+            <div class="brand">
+                <div class="logo" aria-hidden="true">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M7 16C7 12.6863 9.68629 10 13 10H18" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>
+                        <path d="M6 8.5C6 6.01472 8.01472 4 10.5 4H18" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>
+                        <path d="M6 20H18" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>
+                    </svg>
+                </div>
+                <div class="brand-copy">
+                    <div class="eyebrow">Single-file comedy system</div>
+                    <h1>Comedy Deck</h1>
+                </div>
+            </div>
+            <div class="status-pill" id="statusPill">7 personas • 70 jokes • offline safe</div>
+        </header>
 
-<div class="banner">
-    🎤 Comedy Deck v3 — Interactive Joke Engine (Free Tier Safe Build)
-</div>
+        <section class="hero" aria-label="Intro">
+            <div class="hero-copy">
+                <div class="kicker">Quiet redesign</div>
+                <h2>Built like a stage, not a demo.</h2>
+                <p>
+                    A cleaner home for your seven AI personas and seventy jokes — less template energy,
+                    more presence, rhythm, and readability. The structure stays simple, but the page now
+                    feels intentional.
+                </p>
+            </div>
+            <div class="hero-panel">
+                <div class="panel-label">Current act</div>
+                <div class="persona-display">
+                    <h3 id="heroPersona">Grok Bhangra</h3>
+                    <span id="heroCount">Joke 1 / 10</span>
+                </div>
+                <div class="deck-note">
+                    Each persona has its own voice. The interface keeps the focus on the writing while adding
+                    enough hierarchy to feel curated instead of improvised.
+                </div>
+            </div>
+        </section>
 
-<div class="container">
+        <main class="content" id="main">
+            <aside class="sidebar" aria-label="Persona selection">
+                <h2 class="sidebar-title">Select persona</h2>
+                <div class="comedian-list" id="comedianBar"></div>
+            </aside>
 
-    <div class="comedian-bar" id="comedianBar"></div>
+            <section class="stage" aria-label="Joke stage">
+                <div class="meta-row">
+                    <div class="meta-chip"><span class="dot" aria-hidden="true"></span><span id="metaPersona">Grok Bhangra</span></div>
+                    <div class="meta-chip" id="metaCounter">1 of 10</div>
+                </div>
 
-    <div class="joke-box" id="jokeBox">Loading jokes...</div>
+                <article class="joke-card" aria-live="polite">
+                    <div class="joke-persona" id="jokePersona">Grok Bhangra</div>
+                    <p class="joke-text" id="jokeBox">Loading jokes...</p>
+                    <div class="joke-footer">
+                        <div class="joke-index" id="jokeIndex">Joke 1 of 10</div>
+                        <div class="joke-caption">Use the arrows to move through the set.</div>
+                    </div>
+                </article>
 
-    <div class="controls">
-        <button onclick="prevJoke()">⬅ Prev</button>
-        <button onclick="nextJoke()">Next ➡</button>
+                <div class="controls">
+                    <div class="control-group">
+                        <button class="btn btn-secondary" type="button" onclick="prevJoke()" aria-label="Previous joke">⬅ Previous</button>
+                        <button class="btn btn-primary" type="button" onclick="nextJoke()" aria-label="Next joke">Next ➜</button>
+                    </div>
+                    <div class="meta-chip" id="totalCounter">70 jokes in the deck</div>
+                </div>
+            </section>
+        </main>
+
+        <div class="bottom-note">
+            <div>No APIs • No dependencies beyond fonts • One file</div>
+            <div>Redesigned for stronger hierarchy, calmer tone, and better reading flow</div>
+        </div>
     </div>
-
-    <div class="footer">
-        Built as a single-file interactive system • No APIs • No dependencies • Offline safe
-    </div>
-
 </div>
 
 <script>
-// ===================== DATA =====================
-
 const data = {
     "Grok Bhangra": [
         "I tried meditation… but my thoughts started doing bhangra.",
         "My WiFi is so slow, even my router is emotionally unavailable.",
         "I asked Google for life advice… it said ‘did you mean therapy?’",
         "My brain has too many tabs open and none are loading.",
-        "I bought gym membership… now I identify as a “subscription holder”.",
+        "I bought gym membership… now I identify as a ‘subscription holder’.",
         "My sleep schedule is like crypto — volatile and disappointing.",
         "I don’t have trust issues… I have WiFi issues.",
         "My motivation left the chat and never rejoined.",
         "I tried to be productive… got distracted by my own breathing.",
         "Even my shadow looks tired of me."
     ],
-
     "Gemini Firmware": [
         "Updating personality… please do not turn off human.",
         "Error 404: Motivation not found in system directory.",
@@ -141,7 +611,6 @@ const data = {
         "Low battery mode: socially awkward responses enabled.",
         "Compilation complete: still confused but faster."
     ],
-
     "Neon Uncle": [
         "Back in my day, WiFi had commitment issues too… it just called it dial-up.",
         "I told my kids I walked 10km… they asked why I didn’t teleport.",
@@ -154,7 +623,6 @@ const data = {
         "I don’t need Google Maps, I have wrong directions confidence.",
         "Sleep is free but I still can’t afford it."
     ],
-
     "Cyber Sadhu": [
         "I achieved enlightenment… then lost password to it.",
         "My chakras are aligned but my WiFi isn’t.",
@@ -167,7 +635,6 @@ const data = {
         "I transcended reality but still can’t transcend Mondays.",
         "Enlightenment achieved… trial version expired."
     ],
-
     "Tech Bro Therapist": [
         "Let’s process your trauma… but make it scalable.",
         "Have you tried turning your emotions off and on again?",
@@ -180,7 +647,6 @@ const data = {
         "You don’t need closure, you need better architecture.",
         "Your anxiety is just background processes running wild."
     ],
-
     "Bollywood Bot": [
         "Main emotional ho gaya… system hang ho gaya.",
         "Tum jo aaye zindagi mein… WiFi lag gaya.",
@@ -193,7 +659,6 @@ const data = {
         "Mujhe pyaar hua… error 500.",
         "End credits mein bhi heartbreak chalta hai."
     ],
-
     "Quantum Chaiwala": [
         "I exist in multiple moods until someone talks to me.",
         "My tea is both hot and cold until I sip it.",
@@ -208,81 +673,35 @@ const data = {
     ]
 };
 
-// ===================== STATE =====================
-
 let currentComedian = Object.keys(data)[0];
 let currentIndex = 0;
 
-// ===================== INIT =====================
+const comedianBar = document.getElementById('comedianBar');
+const jokeBox = document.getElementById('jokeBox');
+const jokePersona = document.getElementById('jokePersona');
+const jokeIndex = document.getElementById('jokeIndex');
+const heroPersona = document.getElementById('heroPersona');
+const heroCount = document.getElementById('heroCount');
+const metaPersona = document.getElementById('metaPersona');
+const metaCounter = document.getElementById('metaCounter');
+const totalCounter = document.getElementById('totalCounter');
+const statusPill = document.getElementById('statusPill');
 
-const comedianBar = document.getElementById("comedianBar");
-const jokeBox = document.getElementById("jokeBox");
+function totalJokes() {
+    return Object.values(data).reduce((sum, jokes) => sum + jokes.length, 0);
+}
 
 function init() {
     Object.keys(data).forEach(name => {
-        const btn = document.createElement("div");
-        btn.className = "comedian";
-        if (name === currentComedian) btn.classList.add("active");
-
-        btn.innerText = name;
-        btn.onclick = () => switchComedian(name);
-
+        const btn = document.createElement('button');
+        btn.className = 'comedian';
+        btn.type = 'button';
+        if (name === currentComedian) btn.classList.add('active');
+        btn.textContent = name;
+        btn.setAttribute('aria-label', `Switch to ${name}`);
+        btn.addEventListener('click', () => switchComedian(name));
         comedianBar.appendChild(btn);
     });
 
-    renderJoke();
-}
-
-// ===================== CORE =====================
-
-function switchComedian(name) {
-    currentComedian = name;
-    currentIndex = 0;
-
-    document.querySelectorAll(".comedian").forEach(el => {
-        el.classList.remove("active");
-        if (el.innerText === name) el.classList.add("active");
-    });
-
-    renderJoke();
-}
-
-function renderJoke() {
-    const jokes = data[currentComedian];
-    jokeBox.innerText = jokes[currentIndex];
-}
-
-function nextJoke() {
-    const jokes = data[currentComedian];
-    currentIndex = (currentIndex + 1) % jokes.length;
-    renderJoke();
-}
-
-function prevJoke() {
-    const jokes = data[currentComedian];
-    currentIndex = (currentIndex - 1 + jokes.length) % jokes.length;
-    renderJoke();
-}
-
-// ===================== SAFE AUDIO HOOK (NO CRASH) =====================
-
-function playAudioSafe(url) {
-    try {
-        const audio = new Audio(url);
-        audio.volume = 0.5;
-        audio.play().catch(() => {
-            // silently fail (browser restrictions)
-        });
-    } catch (e) {
-        // never break app
-    }
-}
-
-// ===================== START =====================
-
-init();
-
-</script>
-
-</body>
-</html>
+    totalCounter.textContent = `${totalJokes()} jokes in the deck`;
+    stat
