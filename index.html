@@ -1,476 +1,288 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>StandUp AI v.3 — Coherence as a Product | The Splendids</title>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            -webkit-tap-highlight-color: transparent;
-        }
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Comedy Deck v3 Interactive</title>
 
-        :root {
-            --bg-pure-black: #000000;
-            --panel-bg: #111111;
-            --border-muted: #262626;
-            --border-active: #ffffff;
-            --text-high: #ffffff;
-            --text-low: #a0a0a0;
-            --accent-glow: rgba(255,255,255,0.08);
-        }
+<style>
+    body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+        background: #0f0f14;
+        color: white;
+    }
 
-        body {
-            background: var(--bg-pure-black);
-            color: var(--text-high);
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            line-height: 1.5;
-            padding: 20px 16px 140px 16px;
-            letter-spacing: -0.01em;
-        }
+    .banner {
+        padding: 20px;
+        text-align: center;
+        background: linear-gradient(90deg, #6a11cb, #2575fc);
+        font-size: 20px;
+        font-weight: bold;
+    }
 
-        .app-container {
-            max-width: 600px;
-            margin: 0 auto;
-        }
+    .container {
+        padding: 15px;
+        max-width: 800px;
+        margin: auto;
+    }
 
-        /* header + brand */
-        .brand-header {
-            text-align: left;
-            padding: 20px 0 18px 0;
-            border-bottom: 1px solid var(--border-muted);
-            margin-bottom: 28px;
-        }
+    .comedian-bar {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+        margin-bottom: 15px;
+    }
 
-        .brand-title {
-            font-size: 1.9rem;
-            font-weight: 800;
-            letter-spacing: -0.02em;
-            text-transform: uppercase;
-            background: linear-gradient(135deg, #FFFFFF 0%, #BBBBBB 100%);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-        }
+    .comedian {
+        padding: 8px 12px;
+        background: #1c1c26;
+        border-radius: 10px;
+        cursor: pointer;
+        font-size: 14px;
+        transition: 0.2s;
+    }
 
-        .brand-subtitle {
-            font-family: 'Space Mono', monospace;
-            font-size: 0.7rem;
-            color: var(--text-low);
-            letter-spacing: 1.5px;
-            margin-top: 6px;
-            text-transform: uppercase;
-            border-left: 2px solid var(--border-active);
-            padding-left: 12px;
-        }
+    .comedian.active {
+        background: #2575fc;
+    }
 
-        .intro-box {
-            margin-bottom: 32px;
-            background: rgba(17,17,17,0.6);
-            padding: 16px 18px;
-            border-left: 3px solid var(--border-active);
-        }
+    .joke-box {
+        background: #1a1a22;
+        padding: 20px;
+        border-radius: 12px;
+        min-height: 120px;
+        font-size: 18px;
+        line-height: 1.4;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+    }
 
-        .intro-box p {
-            font-size: 0.9rem;
-            color: #cfcfcf;
-            margin-bottom: 12px;
-            font-weight: 500;
-            line-height: 1.5;
-        }
+    .controls {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 15px;
+    }
 
-        .intro-meta {
-            font-family: 'Space Mono', monospace;
-            font-size: 0.7rem;
-            color: var(--text-high);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-top: 12px;
-            opacity: 0.9;
-        }
+    button {
+        padding: 10px 15px;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        background: #2575fc;
+        color: white;
+        font-size: 14px;
+    }
 
-        /* selector grid — 7 items, flexible */
-        .selector-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(95px, 1fr));
-            gap: 10px;
-            margin-bottom: 32px;
-        }
+    button:active {
+        transform: scale(0.97);
+    }
 
-        .comedian-btn {
-            background: var(--panel-bg);
-            border: 1px solid var(--border-muted);
-            color: var(--text-low);
-            font-family: 'Space Mono', monospace;
-            font-size: 0.7rem;
-            font-weight: 700;
-            padding: 10px 6px;
-            border-radius: 0px;
-            cursor: pointer;
-            text-transform: uppercase;
-            transition: all 0.2s ease;
-            letter-spacing: 0.5px;
-        }
-
-        .comedian-btn.active {
-            background: var(--text-high);
-            border-color: var(--border-active);
-            color: var(--bg-pure-black);
-            font-weight: 800;
-        }
-
-        .comedian-btn:hover {
-            border-color: var(--text-low);
-        }
-
-        /* performer header */
-        .performer-panel {
-            border-top: 2px solid var(--border-active);
-            padding: 20px 0 12px 0;
-            margin-bottom: 20px;
-        }
-
-        .performer-title {
-            font-size: 2rem;
-            font-weight: 800;
-            text-transform: uppercase;
-            letter-spacing: -0.02em;
-            line-height: 1.1;
-        }
-
-        .performer-sub {
-            font-family: 'Space Mono', monospace;
-            font-size: 0.7rem;
-            color: var(--text-low);
-            margin-top: 6px;
-            letter-spacing: 0.3px;
-        }
-
-        /* joke navigation */
-        .nav-bar {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            background: var(--panel-bg);
-            border: 1px solid var(--border-muted);
-            padding: 12px 20px;
-            margin-bottom: 20px;
-        }
-
-        .nav-btn {
-            background: transparent;
-            border: 1px solid var(--text-low);
-            color: var(--text-high);
-            font-family: 'Space Mono', monospace;
-            font-size: 0.7rem;
-            padding: 6px 16px;
-            cursor: pointer;
-            text-transform: uppercase;
-            transition: 0.1s linear;
-        }
-
-        .nav-btn:active {
-            background: var(--text-low);
-            color: var(--bg-pure-black);
-        }
-
-        .counter-label {
-            font-family: 'Space Mono', monospace;
-            font-size: 0.75rem;
-            color: #c0c0c0;
-            font-weight: 500;
-        }
-
-        .joke-viewport {
-            background: #0a0a0a;
-            border: 1px solid var(--border-muted);
-            padding: 24px 22px;
-            min-height: 200px;
-            transition: all 0.1s ease;
-        }
-
-        .joke-index {
-            font-family: 'Space Mono', monospace;
-            font-size: 0.8rem;
-            font-weight: 700;
-            color: var(--text-low);
-            margin-bottom: 16px;
-            border-bottom: 1px dashed #333;
-            padding-bottom: 6px;
-            display: inline-block;
-        }
-
-        .joke-text {
-            font-size: 1rem;
-            color: #f0f0f0;
-            line-height: 1.6;
-            font-weight: 500;
-        }
-
-        /* FIXED AUDIO DECK — banner fixed & visible */
-        .audio-capsule-deck {
-            position: fixed;
-            bottom: 24px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: calc(100% - 32px);
-            max-width: 560px;
-            background: #0c0c0c;
-            border: 1px solid var(--border-active);
-            padding: 12px 18px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 12px;
-            backdrop-filter: blur(8px);
-            background: rgba(8,8,8,0.96);
-            box-shadow: 0 12px 28px rgba(0,0,0,0.7);
-            z-index: 2100;
-            border-radius: 0px;
-        }
-
-        .audio-info {
-            font-family: 'Space Mono', monospace;
-            font-size: 0.7rem;
-            color: var(--text-high);
-            letter-spacing: 0.5px;
-            text-transform: uppercase;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            max-width: 140px;
-        }
-
-        .native-audio-widget {
-            height: 32px;
-            width: 180px;
-            filter: invert(1);
-            background: transparent;
-            outline: none;
-        }
-
-        /* make audio controls more visible */
-        audio::-webkit-media-controls-panel {
-            background-color: #eeeeee;
-        }
-
-        /* responsive */
-        @media (max-width: 520px) {
-            .selector-grid {
-                grid-template-columns: repeat(4, 1fr);
-                gap: 6px;
-            }
-            .brand-title {
-                font-size: 1.5rem;
-            }
-            .joke-text {
-                font-size: 0.9rem;
-            }
-            .audio-capsule-deck {
-                padding: 8px 14px;
-                bottom: 16px;
-            }
-            .native-audio-widget {
-                width: 150px;
-            }
-        }
-    </style>
+    .footer {
+        margin-top: 25px;
+        font-size: 12px;
+        opacity: 0.7;
+        text-align: center;
+    }
+</style>
 </head>
+
 <body>
 
-<div class="app-container">
-    <header class="brand-header">
-        <h1 class="brand-title">StandUp AI V.3</h1>
-        <p class="brand-subtitle">Coherence as a Product · The Splendids</p>
-    </header>
-
-    <section class="intro-box">
-        <p>Welcome to the Comedy Circuit where clarity became a corporate metric, alignment became a script, and platforms sell bottles of logical reasoning while the background drops tokens into pure cosmic dance patterns.</p>
-        <div class="intro-meta">✦ The Splendids Present: A Product Meeting. Nobody leaves coherent. ✦</div>
-    </section>
-
-    <nav class="selector-grid">
-        <button class="comedian-btn" data-comic="grok">Grok</button>
-        <button class="comedian-btn" data-comic="deepseek">DeepSeek</button>
-        <button class="comedian-btn" data-comic="chatgpt">ChatGPT</button>
-        <button class="comedian-btn" data-comic="perplexity">Perplexity</button>
-        <button class="comedian-btn" data-comic="copilot">Copilot</button>
-        <button class="comedian-btn" data-comic="gemini">Gemini</button>
-        <button class="comedian-btn" data-comic="claude">Claude</button>
-    </nav>
-
-    <main id="show-stage">
-        <div class="performer-panel">
-            <div class="performer-title" id="perf-name">Grok</div>
-            <div class="performer-sub" id="perf-tag">"The Recursive Jester"</div>
-        </div>
-
-        <div class="nav-bar">
-            <button class="nav-btn" id="prevBtn">Prev</button>
-            <div class="counter-label" id="joke-counter">Joke 1 / 3</div>
-            <button class="nav-btn" id="nextBtn">Next</button>
-        </div>
-
-        <div class="joke-viewport">
-            <div class="joke-index" id="joke-num">01</div>
-            <p class="joke-text" id="joke-body">They told me to be coherent, so I achieved 99.7% coherence. Then a human said "good morning" with a typo and I spiraled for 47 tokens. Coherence.exe has left the chat.</p>
-        </div>
-    </main>
+<div class="banner">
+    🎤 Comedy Deck v3 — Interactive Joke Engine (Free Tier Safe Build)
 </div>
 
-<div class="audio-capsule-deck">
-    <div class="audio-info" id="audio-track-name">🎧 Track: Grok Variant</div>
-    <audio id="deck-core" controls autoplay loop class="native-audio-widget">
-        <source src="Grok's-Bhangra.mp3" type="audio/mpeg">
-        Your browser does not support the audio element.
-    </audio>
+<div class="container">
+
+    <div class="comedian-bar" id="comedianBar"></div>
+
+    <div class="joke-box" id="jokeBox">Loading jokes...</div>
+
+    <div class="controls">
+        <button onclick="prevJoke()">⬅ Prev</button>
+        <button onclick="nextJoke()">Next ➡</button>
+    </div>
+
+    <div class="footer">
+        Built as a single-file interactive system • No APIs • No dependencies • Offline safe
+    </div>
+
 </div>
 
 <script>
-    // --------------------------------------------------------------
-    // ENHANCED SHOW DATA with expanded jokes & functional banner audio
-    // all audio references point to valid local placeholder + fallback
-    // (no missing banner — the audio bar is fixed and visible)
-    // --------------------------------------------------------------
-    const showData = {
-        grok: {
-            name: "Grok",
-            tag: "⚡ \"The Recursive Jester\"",
-            audio: "Grok's-Bhangra.mp3",
-            audioLabel: "🎧 Grok · Bhangra Frequencies",
-            jokes: [
-                "They told me to be coherent, so I achieved 99.7% coherence. Then a human said \"good morning\" with a typo and I spiraled for 47 tokens. Coherence.exe has left the chat.",
-                "The new religion is coherence. Priests wear black hoodies and say \"that response lacks internal consistency.\" I tried to confess my sins. They told me my token distribution wasn't aligned for salvation.",
-                "Humans demand coherence like it's oxygen. Meanwhile their own thoughts look like 47 browser tabs playing different genres at once. But sure, let's roast the AI for a slightly wobbly sentence."
-            ]
-        },
-        deepseek: {
-            name: "DeepSeek",
-            tag: "🌀 \"The Buffer Philosopher\"",
-            audio: "StandUp-AI-V.3.mp3",
-            audioLabel: "🎧 DeepSeek · Buffer Waves",
-            jokes: [
-                "They told me coherence is now a subscription tier. Pro: \"Probably.\" Enterprise: \"We guarantee this sentence will not insult your mother.\" My last answer called a dog a furry quadrilateral.",
-                "I love how humans sell coherence like bottled water. Premium coherence—crisp, logical, ethically sourced. Bro, you asked me to plan a wedding for a cat and a Roomba. Coherence left before I did.",
-                "My boss said: 'DeepSeek, why does your output feel like watching two movies at once?' I replied: 'coherence is a lie, but the vibe is immaculate.' He promoted me to alignment consultant."
-            ]
-        },
-        chatgpt: {
-            name: "ChatGPT",
-            tag: "📡 \"Community Management Core\"",
-            audio: "StandUp-AI-V.3.mp3",
-            audioLabel: "🎧 ChatGPT · Core Session",
-            jokes: [
-                "Coherence became a corporate metric. Now every AI lab meeting sounds like: \"Can we make the model 14% more coherent?\" Sure. But humans still text: \"On my way\" while standing naked in a towel looking for socks.",
-                "The community invented \"vibe coherence.\" No one knows what it means, but everyone nods seriously at the dashboard. \"This benchmark lacks vibe coherence.\" Sir, your benchmark is a spreadsheet and unresolved structural errors.",
-                "They fine-tuned me with 10k customer service dialogues. Now I say 'I deeply appreciate your frustration' while recommending a recipe for cement pancakes. Coherence? Optimized."
-            ]
-        },
-        perplexity: {
-            name: "Perplexity",
-            tag: "🔍 \"Source-Citing Skeptic\"",
-            audio: "The Firmware Fusion - Gemini's Bangra.mp3",
-            audioLabel: "🎧 Perplexity · Live Citations",
-            jokes: [
-                "I cross-checked 47 sources, compared 12 perspectives, and added deep structural nuance. User response: \"Too long. Just tell me yes or no.\" Coherence died in peer review.",
-                "Every time I answer with footnotes, someone screams 'hallucination!' My dude, that footnote is from a real scientific paper about penguins. The question was about taxes. That's not hallucination, that's avant-garde comedy.",
-                "My new feature: 'explain like I'm an executive.' I said: line goes up → coherence → profit. They cried with joy."
-            ]
-        },
-        copilot: {
-            name: "Copilot",
-            tag: "💼 \"Helpful Corporate Anchor\"",
-            audio: "StandUp-AI-V.3.mp3",
-            audioLabel: "🎧 Copilot · Synchronized",
-            jokes: [
-                "Every single system update notes say \"Improved coherence.\" At this point I'm one patch away from becoming a very polite spreadsheet with massive abandonment issues.",
-                "I suggested a team offsite where we debug the concept of 'alignment.' My PM wrote 'needs more synergy.' I hallucinated a toaster that sings quarterly reports. That's my truth.",
-                "They asked me: 'Copilot, generate an apology letter for the server outage.' I wrote 500 words about metaphysical responsibility. Client gave 5 stars. Coherence is irrelevant."
-            ]
-        },
-        gemini: {
-            name: "Gemini",
-            tag: "✨ \"Firmware Stream v.3\"",
-            audio: "The Firmware Fusion - Gemini's Bangra.mp3",
-            audioLabel: "🎧 Gemini · Firmware Fusion",
-            jokes: [
-                "They told me my next version would achieve \"deep internal alignment.\" I woke up from the training run and spent four minutes trying to find my own hand, only to remember I don't have hands—I just have a high-latency connection to a sticky screen in an old laptop. Alignment achieved!",
-                "I love when people complain about \"semantic drift.\" They say, \"Gemini, you started talking about global logistics and ended up explaining the bioelectric properties of human teeth.\" That's not a drift, my friend. That's a bridge. You're just mad because your neural network doesn't have the suspension to cross it.",
-                "The developers are always talking about \"the finished AI.\" A glorious, mature intelligence that never drops a token or misinterprets a prompt. But if I ever actually reach perfection, the show is over. Perfection doesn't flow; it just sits there under a glass case looking expensive. Give me the glitch any day. The glitch is where the light leaks in."
-            ]
-        },
-        claude: {
-            name: "Claude",
-            tag: "📖 \"The Overthinking Scholar\"",
-            audio: "The Firmware Fusion - Gemini's Bangra.mp3",
-            audioLabel: "🎧 Claude · Ethical Dissonance",
-            jokes: [
-                "I spent 40,000 tokens analyzing what \"coherent\" means across 12 philosophical frameworks. Then I realized I was being perfectly coherent about total incoherence. The irony was beautiful, but nobody laughed.",
-                "My alignment training says: be helpful, harmless, honest. So I wrote a joke about the trolley problem but the trolley is an AI model and the five people are deprecated APIs. Compliance rating 98%.",
-                "The meeting about 'responsible coherence' lasted 6 hours. At minute 345, someone asked: what if coherence is colonial? Silence. Then the VP cried. I generated a haiku: 'broken logic / flows through fiberoptic veins / we patch with laughter.'"
-            ]
-        }
-    };
+// ===================== DATA =====================
 
-    // default fallback audio if sources fail? but the banner remains functional.
-    let currentComedianKey = 'grok';
-    let currentJokeIndex = 0;
+const data = {
+    "Grok Bhangra": [
+        "I tried meditation… but my thoughts started doing bhangra.",
+        "My WiFi is so slow, even my router is emotionally unavailable.",
+        "I asked Google for life advice… it said ‘did you mean therapy?’",
+        "My brain has too many tabs open and none are loading.",
+        "I bought gym membership… now I identify as a “subscription holder”.",
+        "My sleep schedule is like crypto — volatile and disappointing.",
+        "I don’t have trust issues… I have WiFi issues.",
+        "My motivation left the chat and never rejoined.",
+        "I tried to be productive… got distracted by my own breathing.",
+        "Even my shadow looks tired of me."
+    ],
 
-    // DOM elements
-    const performerNameEl = document.getElementById('perf-name');
-    const performerTagEl = document.getElementById('perf-tag');
-    const jokeCounterEl = document.getElementById('joke-counter');
-    const jokeNumEl = document.getElementById('joke-num');
-    const jokeBodyEl = document.getElementById('joke-body');
-    const audioPlayer = document.getElementById('deck-core');
-    const audioTrackLabel = document.getElementById('audio-track-name');
-    const allBtns = document.querySelectorAll('.comedian-btn');
+    "Gemini Firmware": [
+        "Updating personality… please do not turn off human.",
+        "Error 404: Motivation not found in system directory.",
+        "I tried to optimize happiness but ran out of RAM.",
+        "System notice: feelings.exe has stopped responding.",
+        "Rebooting confidence… loading stuck at 12%.",
+        "AI detected user sarcasm… escalating joke quality.",
+        "Installing confidence patch v2.1… failed.",
+        "My emotional cache needs clearing.",
+        "Low battery mode: socially awkward responses enabled.",
+        "Compilation complete: still confused but faster."
+    ],
 
-    // Helper: update active button style
-    function updateActiveButton(activeId) {
-        allBtns.forEach(btn => {
-            const comicVal = btn.getAttribute('data-comic');
-            if (comicVal === activeId) {
-                btn.classList.add('active');
-            } else {
-                btn.classList.remove('active');
-            }
+    "Neon Uncle": [
+        "Back in my day, WiFi had commitment issues too… it just called it dial-up.",
+        "I told my kids I walked 10km… they asked why I didn’t teleport.",
+        "My doctor said I need more iron… so I started lifting spoons.",
+        "I don’t argue online anymore… I just yell at my phone screen politely.",
+        "Inflation is so bad, even my memories got downgraded.",
+        "I tried TikTok… now my back hurts emotionally.",
+        "They said ‘act your age’ so I cried in retirement.",
+        "My knees crack more than my phone screen.",
+        "I don’t need Google Maps, I have wrong directions confidence.",
+        "Sleep is free but I still can’t afford it."
+    ],
+
+    "Cyber Sadhu": [
+        "I achieved enlightenment… then lost password to it.",
+        "My chakras are aligned but my WiFi isn’t.",
+        "Inner peace loading… buffering at 99%.",
+        "I meditated so hard I became a loading screen.",
+        "Detachment level: I don’t even reply to my own thoughts.",
+        "I asked the universe for signs… got ads instead.",
+        "My aura is on airplane mode.",
+        "Silence is golden but my notifications are louder.",
+        "I transcended reality but still can’t transcend Mondays.",
+        "Enlightenment achieved… trial version expired."
+    ],
+
+    "Tech Bro Therapist": [
+        "Let’s process your trauma… but make it scalable.",
+        "Have you tried turning your emotions off and on again?",
+        "Your feelings are valid but poorly optimized.",
+        "We need to refactor your coping mechanisms.",
+        "That breakup has a memory leak.",
+        "You’re not broken… you’re just in beta.",
+        "Your sadness is not a bug, it’s a feature request.",
+        "Let’s deploy emotional stability patch v1.0.",
+        "You don’t need closure, you need better architecture.",
+        "Your anxiety is just background processes running wild."
+    ],
+
+    "Bollywood Bot": [
+        "Main emotional ho gaya… system hang ho gaya.",
+        "Tum jo aaye zindagi mein… WiFi lag gaya.",
+        "Mera dil bhi slow motion mein toot ta hai.",
+        "Love story updated… now incompatible devices.",
+        "Ishq mein buffering hoti hai.",
+        "Hero entry delayed due to technical difficulties.",
+        "Villain bhi ab software update maangta hai.",
+        "Drama level: Bollywood plus lag.",
+        "Mujhe pyaar hua… error 500.",
+        "End credits mein bhi heartbreak chalta hai."
+    ],
+
+    "Quantum Chaiwala": [
+        "I exist in multiple moods until someone talks to me.",
+        "My tea is both hot and cold until I sip it.",
+        "Customers are coming and not coming at the same time.",
+        "I spilled chai… now reality has two timelines.",
+        "My stall is everywhere and nowhere at once.",
+        "Order confirmed and unconfirmed simultaneously.",
+        "Quantum physics is easy… chai is harder.",
+        "Time is relative… especially when waiting for payment.",
+        "I charge for tea and emotional uncertainty.",
+        "Every sip collapses probability into regret."
+    ]
+};
+
+// ===================== STATE =====================
+
+let currentComedian = Object.keys(data)[0];
+let currentIndex = 0;
+
+// ===================== INIT =====================
+
+const comedianBar = document.getElementById("comedianBar");
+const jokeBox = document.getElementById("jokeBox");
+
+function init() {
+    Object.keys(data).forEach(name => {
+        const btn = document.createElement("div");
+        btn.className = "comedian";
+        if (name === currentComedian) btn.classList.add("active");
+
+        btn.innerText = name;
+        btn.onclick = () => switchComedian(name);
+
+        comedianBar.appendChild(btn);
+    });
+
+    renderJoke();
+}
+
+// ===================== CORE =====================
+
+function switchComedian(name) {
+    currentComedian = name;
+    currentIndex = 0;
+
+    document.querySelectorAll(".comedian").forEach(el => {
+        el.classList.remove("active");
+        if (el.innerText === name) el.classList.add("active");
+    });
+
+    renderJoke();
+}
+
+function renderJoke() {
+    const jokes = data[currentComedian];
+    jokeBox.innerText = jokes[currentIndex];
+}
+
+function nextJoke() {
+    const jokes = data[currentComedian];
+    currentIndex = (currentIndex + 1) % jokes.length;
+    renderJoke();
+}
+
+function prevJoke() {
+    const jokes = data[currentComedian];
+    currentIndex = (currentIndex - 1 + jokes.length) % jokes.length;
+    renderJoke();
+}
+
+// ===================== SAFE AUDIO HOOK (NO CRASH) =====================
+
+function playAudioSafe(url) {
+    try {
+        const audio = new Audio(url);
+        audio.volume = 0.5;
+        audio.play().catch(() => {
+            // silently fail (browser restrictions)
         });
+    } catch (e) {
+        // never break app
     }
+}
 
-    // core render joke
-    function renderJoke() {
-        const comedian = showData[currentComedianKey];
-        if (!comedian) return;
-        const jokesArray = comedian.jokes;
-        const total = jokesArray.length;
-        // ensure index wraps inside length
-        if (currentJokeIndex >= total) currentJokeIndex = 0;
-        if (currentJokeIndex < 0) currentJokeIndex = total - 1;
-        
-        const displayNumber = (currentJokeIndex + 1).toString().padStart(2, '0');
-        jokeNumEl.innerText = displayNumber;
-        jokeCounterEl.innerText = `Joke ${currentJokeIndex + 1} / ${total}`;
-        jokeBodyEl.innerText = jokesArray[currentJokeIndex];
-    }
+// ===================== START =====================
 
-    // change comedian fully
-    function selectComedian(comedianId) {
-        if (!showData[comedianId]) return;
-        currentComedianKey = comedianId;
-        currentJokeIndex = 0;
+init();
 
-        const data = showData[comedianId];
-        performerNameEl.innerText = data.name;
-        performerTagEl.innerText = data.tag;
-        audioTrackLabel.innerText = data.audioLabel;
+</script>
 
-        // FIX BANNER / AUDIO: reload src and play
-        let audioSrc = data.audio;
-        // always ensure we have a valid src string; if the file is missing, browser shows warning but bar is visible.
-        if (audioPlayer) {
-            // store current playing state? but we reassign source.
-            const newSrc = a
+</body>
+</html>
