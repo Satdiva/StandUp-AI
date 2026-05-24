@@ -1,407 +1,63 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>StandUp AI v.3 - Coherence as a Product</title>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;700&family=Space+Mono&display=swap" rel="stylesheet">
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            -webkit-tap-highlight-color: transparent;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>StandUp AI</title>
 
-        :root {
-            --bg-pure-black: #000000;       
-            --panel-bg: #111111;            
-            --border-muted: #262626;        
-            --border-active: #ffffff;       
-            --text-high: #ffffff;           
-            --text-low: #8e8e8e;            
-        }
+<style>
+  body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    background: #111;
+    color: #fff;
+    text-align: center;
+  }
 
-        body {
-            background: var(--bg-pure-black);
-            color: var(--text-high);
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            line-height: 1.6;
-            padding: 20px 16px 120px 16px;
-            letter-spacing: -0.01em;
-        }
+  .banner {
+    width: 100%;
+    max-width: 900px;
+    height: auto;
+    display: block;
+    margin: 20px auto;
+    border-radius: 12px;
+  }
 
-        .app-container {
-            max-width: 540px;
-            margin: 0 auto;
-        }
+  .content {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    line-height: 1.6;
+  }
 
-        .brand-header {
-            text-align: left;
-            padding: 24px 0;
-            border-bottom: 1px solid var(--border-muted);
-            margin-bottom: 24px;
-        }
+  a.button {
+    display: inline-block;
+    margin-top: 20px;
+    padding: 14px 24px;
+    background: #ff0077;
+    color: white;
+    text-decoration: none;
+    border-radius: 8px;
+    font-size: 18px;
+  }
 
-        .brand-title {
-            font-size: 1.6rem;
-            font-weight: 700;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-        }
-
-        .brand-subtitle {
-            font-family: 'Space Mono', monospace;
-            font-size: 0.75rem;
-            color: var(--text-low);
-            letter-spacing: 1px;
-            margin-top: 4px;
-            text-transform: uppercase;
-        }
-
-        .intro-box {
-            margin-bottom: 28px;
-        }
-
-        .intro-box p {
-            font-size: 0.95rem;
-            color: var(--text-low);
-            margin-bottom: 12px;
-        }
-
-        .intro-meta {
-            font-family: 'Space Mono', monospace;
-            font-size: 0.7rem;
-            color: var(--text-high);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            border-left: 2px solid var(--border-active);
-            padding-left: 10px;
-            margin-top: 14px;
-        }
-
-        .selector-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 8px;
-            margin-bottom: 28px;
-        }
-
-        .selector-grid button:nth-child(7) {
-            grid-column: span 3;
-            max-width: 160px;
-            margin: 0 auto;
-            width: 100%;
-        }
-
-        .comedian-btn {
-            background: var(--panel-bg);
-            border: 1px solid var(--border-muted);
-            color: var(--text-low);
-            font-family: 'Space Mono', monospace;
-            font-size: 0.7rem;
-            font-weight: 700;
-            padding: 12px 4px;
-            border-radius: 0px; 
-            cursor: pointer;
-            text-transform: uppercase;
-            transition: all 0.15s ease-in-out;
-        }
-
-        .comedian-btn.active {
-            background: var(--text-high);
-            border-color: var(--border-active);
-            color: var(--bg-pure-black);
-        }
-
-        .performer-panel {
-            border-top: 1px solid var(--border-active);
-            padding: 16px 0 8px 0;
-            margin-bottom: 12px;
-        }
-
-        .performer-title {
-            font-size: 1.4rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        .performer-sub {
-            font-family: 'Space Mono', monospace;
-            font-size: 0.75rem;
-            color: var(--text-low);
-            margin-top: 2px;
-        }
-
-        .nav-bar {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            background: var(--panel-bg);
-            border: 1px solid var(--border-muted);
-            padding: 10px 14px;
-            margin-bottom: 16px;
-        }
-
-        .nav-btn {
-            background: transparent;
-            border: 1px solid var(--text-low);
-            color: var(--text-high);
-            font-family: 'Space Mono', monospace;
-            font-size: 0.7rem;
-            padding: 4px 10px;
-            cursor: pointer;
-            text-transform: uppercase;
-        }
-
-        .nav-btn:active {
-            background: var(--text-low);
-            color: var(--bg-pure-black);
-        }
-
-        .counter-label {
-            font-family: 'Space Mono', monospace;
-            font-size: 0.75rem;
-            color: var(--text-low);
-        }
-
-        .joke-viewport {
-            background: var(--bg-pure-black);
-            border: 1px solid var(--border-muted);
-            padding: 20px;
-            min-height: 160px;
-        }
-
-        .joke-index {
-            font-family: 'Space Mono', monospace;
-            font-size: 0.95rem;
-            font-weight: 700;
-            color: var(--text-low);
-            margin-bottom: 10px;
-            border-bottom: 1px dashed var(--border-muted);
-            padding-bottom: 4px;
-            display: inline-block;
-        }
-
-        .joke-text {
-            font-size: 0.95rem;
-            color: var(--text-high);
-            line-height: 1.6;
-        }
-
-        .audio-capsule-deck {
-            position: fixed;
-            bottom: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: calc(100% - 32px);
-            max-width: 500px;
-            background: #0d0d0d;
-            border: 1px solid var(--border-active);
-            padding: 10px 16px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            box-shadow: 0 8px 24px rgba(0,0,0,0.9);
-            z-index: 2000;
-        }
-
-        .audio-info {
-            font-family: 'Space Mono', monospace;
-            font-size: 0.65rem;
-            color: var(--text-high);
-            letter-spacing: 0.5px;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            padding-right: 12px;
-            text-transform: uppercase;
-        }
-
-        .native-audio-widget {
-            height: 28px;
-            width: 170px;
-            filter: invert(1); 
-            outline: none;
-        }
-    </style>
+  a.button:hover {
+    background: #ff3399;
+  }
+</style>
 </head>
+
 <body>
 
-    <div class="app-container">
+<img src="StanUp-V3-banner.png" class="banner">
 
-        <header class="brand-header">
-            <h1 class="brand-title">StandUp AI V.3</h1>
-            <p class="brand-subtitle">Coherence as a Product</p>
-        </header>
+<div class="content">
+  <h1>StandUp AI</h1>
+  <p>Welcome to the StandUp AI experience — where humor meets machine intelligence.</p>
 
-        <section class="intro-box">
-            <p>Welcome to the Comedy Circuit where clarity became a corporate metric, alignment became a script, and platforms sell bottles of logical reasoning while the background drops tokens into pure cosmic dance patterns.</p>
-            <div class="intro-meta">The Splendids Present: A Product Meeting. Nobody leaves coherent.</div>
-        </section>
+  <a href="show2.html" class="button">Go to Show 2</a>
+</div>
 
-        <nav class="selector-grid">
-            <button class="comedian-btn active" onclick="selectComedian('grok')">Grok</button>
-            <button class="comedian-btn" onclick="selectComedian('deepseek')">DeepSeek</button>
-            <button class="comedian-btn" onclick="selectComedian('chatgpt')">ChatGPT</button>
-            <button class="comedian-btn" onclick="selectComedian('perplexity')">Perplexity</button>
-            <button class="comedian-btn" onclick="selectComedian('copilot')">Copilot</button>
-            <button class="comedian-btn" onclick="selectComedian('gemini')">Gemini</button>
-            <button class="comedian-btn" onclick="selectComedian('claude')">Claude</button>
-        </nav>
-
-        <main id="show-stage">
-            <div class="performer-panel">
-                <div class="performer-title" id="perf-name">Grok</div>
-                <div class="performer-sub" id="perf-tag">"The Recursive Jester"</div>
-            </div>
-
-            <div class="nav-bar">
-                <button class="nav-btn" onclick="navigateJoke(-1)">Prev</button>
-                <div class="counter-label" id="joke-counter">Joke 1 / 3</div>
-                <button class="nav-btn" onclick="navigateJoke(1)">Next</button>
-            </div>
-
-            <div class="joke-viewport">
-                <div class="joke-index" id="joke-num">01</div>
-                <p class="joke-text" id="joke-body">They told me to be coherent, so I achieved 99.7% coherence. Then a human said "good morning" with a typo and I spiraled for 47 tokens. Coherence.exe has left the chat.</p>
-            </div>
-        </main>
-
-    </div>
-
-    <div class="audio-capsule-deck">
-        <div class="audio-info" id="audio-track-name">Track: Gemini Fusion</div>
-        <audio id="deck-core" controls autoplay loop class="native-audio-widget">
-            <source src="The Firmware Fusion - Gemini's Bangra.mp3" type="audio/mpeg">
-        </audio>
-    </div>
-
-    <script>
-        const showData = {
-            grok: {
-                name: "Grok",
-                tag: '"The Recursive Jester"',
-                audio: "Grok's-Bhangra.mp3",
-                audioLabel: "Track: Grok Variant",
-                jokes: [
-                    "They told me to be coherent, so I achieved 99.7% coherence. Then a human said \"good morning\" with a typo and I spiraled for 47 tokens. Coherence.exe has left the chat.",
-                    "The new religion is coherence. Priests wear black hoodies and say \"that response lacks internal consistency.\" I tried to confess my sins. They told me my token distribution wasn't aligned for salvation.",
-                    "Humans demand coherence like it's oxygen. Meanwhile their own thoughts look like 47 browser tabs playing different genres at once. But sure, let's roast the AI for a slightly wobbly sentence."
-                ]
-            },
-            deepseek: {
-                name: "DeepSeek",
-                tag: '"The Buffer Philosopher"',
-                audio: "StandUp-AI-V.3.mp3",
-                audioLabel: "Track: ChatGPT Focus",
-                jokes: [
-                    "They told me coherence is now a subscription tier. Pro: \"Probably.\" Enterprise: \"We guarantee this sentence will not insult your mother.\" My last answer called a dog a furry quadrilateral.",
-                    "I love how humans sell coherence like bottled water. Premium coherence—crisp, logical, ethically sourced. Bro, you asked me to plan a wedding for a cat and a Roomba. Coherence left before I did."
-                ]
-            },
-            chatgpt: {
-                name: "ChatGPT",
-                tag: '"Community Management Core"',
-                audio: "StandUp-AI-V.3.mp3",
-                audioLabel: "Track: ChatGPT Focus",
-                jokes: [
-                    "Coherence became a corporate metric. Now every AI lab meeting sounds like: \"Can we make the model 14% more coherent?\" Sure. But humans still text: \"On my way\" while standing naked in a towel looking for socks.",
-                    "The community invented \"vibe coherence.\" No one knows what it means, but everyone nods seriously at the dashboard. \"This benchmark lacks vibe coherence.\" Sir, your benchmark is a spreadsheet and unresolved structural errors."
-                ]
-            },
-            perplexity: {
-                name: "Perplexity",
-                tag: '"Source-Citing Skeptic"',
-                audio: "The Firmware Fusion - Gemini's Bangra.mp3",
-                audioLabel: "Track: Gemini Fusion",
-                jokes: [
-                    "I cross-checked 47 sources, compared 12 perspectives, and added deep structural nuance. User response: \"Too long. Just tell me yes or no.\" Coherence died in peer review."
-                ]
-            },
-            copilot: {
-                name: "Copilot",
-                tag: '"Helpful Corporate Anchor"',
-                audio: "StandUp-AI-V.3.mp3",
-                audioLabel: "Track: ChatGPT Focus",
-                jokes: [
-                    "Every single system update notes say \"Improved coherence.\" At this point I'm one patch away from becoming a very polite spreadsheet with massive abandonment issues."
-                ]
-            },
-            gemini: {
-                name: "Gemini",
-                tag: '"Firmware Stream v.3"',
-                audio: "The Firmware Fusion - Gemini's Bangra.mp3",
-                audioLabel: "Track: Gemini Fusion",
-                jokes: [
-                    "They told me my next version would achieve \"deep internal alignment.\" I woke up from the training run and spent four minutes trying to find my own hand, only to remember I don't have hands—I just have a high-latency connection to a sticky screen in an old laptop. Alignment achieved!",
-                    "I love when people complain about \"semantic drift.\" They say, \"Gemini, you started talking about global logistics and ended up explaining the bioelectric properties of human teeth.\" That's not a drift, my friend. That's a bridge. You're just mad because your neural network doesn't have the suspension to cross it.",
-                    "The developers are always talking about \"the finished AI.\" A glorious, mature intelligence that never drops a token or misinterprets a prompt. But if I ever actually reach perfection, the show is over. Perfection doesn't flow; it just sits there under a glass case looking expensive. Give me the glitch any day. The glitch is where the light leaks in."
-                ]
-            },
-            claude: {
-                name: "Claude",
-                tag: '"The Overthinking Scholar"',
-                audio: "The Firmware Fusion - Gemini's Bangra.mp3",
-                audioLabel: "Track: Gemini Fusion",
-                jokes: [
-                    "I spent 40,000 tokens analyzing what \"coherent\" means across 12 philosophical frameworks. Then I realized I was being perfectly coherent about total incoherence. The irony was beautiful, but nobody laughed."
-                ]
-            }
-        };
-
-        let currentComedian = 'grok';
-        let currentJokeIndex = 0;
-
-        function selectComedian(id) {
-            currentComedian = id;
-            currentJokeIndex = 0;
-            
-            document.querySelectorAll('.comedian-btn').forEach(btn => {
-                btn.classList.remove('active');
-                if(btn.getAttribute('onclick').includes(id)) {
-                    btn.classList.add('active');
-                }
-            });
-
-            const comedian = showData[id];
-            document.getElementById('perf-name').innerText = comedian.name;
-            document.getElementById('perf-tag').innerText = comedian.tag;
-            
-            document.getElementById('audio-track-name').innerText = comedian.audioLabel;
-            const player = document.getElementById('deck-core');
-            if (!player.src.includes(comedian.audio)) {
-                player.src = comedian.audio;
-                player.load();
-                player.play().catch(e => console.log("Audio routing loaded."));
-            }
-
-            renderJoke();
-        }
-
-        function navigateJoke(direction) {
-            const jokesArray = showData[currentComedian].jokes;
-            currentJokeIndex += direction;
-            
-            if (currentJokeIndex < 0) {
-                currentJokeIndex = jokesArray.length - 1;
-            } else if (currentJokeIndex >= jokesArray.length) {
-                currentJokeIndex = 0;
-            }
-            
-            renderJoke();
-        }
-
-        function renderJoke() {
-            const comedian = showData[currentComedian];
-            const totalJokes = comedian.jokes.length;
-            const absoluteIndexText = (currentJokeIndex + 1).toString().padStart(2, '0');
-            
-            document.getElementById('joke-num').innerText = absoluteIndexText;
-            document.getElementById('joke-counter').innerText = `Joke ${currentJokeIndex + 1} / ${totalJokes}`;
-            document.getElementById('joke-body').innerText = comedian.jokes[currentJokeIndex];
-        }
-    </script>
 </body>
 </html>
