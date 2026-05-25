@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StandUp AI v.3 – Coherence as a Product</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;700;800&family=Space+Mono&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            background: #000000;
+            color: #ffffff;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            padding: 20px 16px 80px 16px;
+        }
+        .app-container {
+            max-width: 650px;
+            margin: 0 auto;
+        }
+
+        /* BANNER IMAGE at the top */
+        .top-banner {
+            width: 100%;
+            background: linear-gradient(135deg, #1a1a1a 0%, #000000 100%);
+            border: 1px solid #333;
+            padding: 24px 20px;
+            margin-bottom: 28px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        .top-banner::before {
+            content: "🎤⚡🤖";
+            position: absolute;
+            font-size: 80px;
+            opacity: 0.08;
+            bottom: -10px;
+            right: -10px;
+            pointer-events: none;
+        }
+        .banner-title {
+            font-size: 2.2rem;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            text-transform: uppercase;
+            background: linear-gradient(135deg, #FFFFFF, #aaaaaa);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        .banner-sub {
+            font-family: 'Space Mono', monospace;
+            font-size: 0.75rem;
+            color: #aaa;
+            margin-top: 8px;
+            letter-spacing: 1px;
+        }
+        .banner-tag {
+            font-size: 0.7rem;
+            color: #888;
+            margin-top: 12px;
+            border-top: 1px dashed #333;
+            display: inline-block;
+            padding-top: 8px;
+        }
+
+        .brand-header {
+            display: none; /* hide old header, banner replaces it */
+        }
+
+        .intro-box {
+            background: #111111;
+            padding: 16px;
+            border-left: 3px solid #ffffff;
+            margin-bottom: 32px;
+        }
+        .intro-box p {
+            font-size: 0.9rem;
+            color: #cfcfcf;
+            margin-bottom: 12px;
+        }
+        .intro-meta {
+            font-family: 'Space Mono', monospace;
+            font-size: 0.7rem;
+            color: #ffffff;
+            margin-top: 8px;
+        }
+
+        .selector-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(95px, 1fr));
+            gap: 10px;
+            margin-bottom: 32px;
+        }
+        .comedian-btn {
+            background: #111111;
+            border: 1px solid #262626;
+            color: #8e8e8e;
+            font-family: 'Space Mono', monospace;
+            font-size: 0.7rem;
+            font-weight: 700;
+            padding: 10px 6px;
+            cursor: pointer;
+            text-transform: uppercase;
+            transition: all 0.2s;
+        }
+        .comedian-btn.active {
+            background: #ffffff;
+            border-color: #ffffff;
+            color: #000000;
+        }
+
+        .performer-panel {
+            border-top: 2px solid #ffffff;
+            padding: 20px 0 12px 0;
+            margin-bottom: 20px;
+        }
+        .performer-title {
+            font-size: 2rem;
+            font-weight: 800;
+            text-transform: uppercase;
+        }
+        .performer-sub {
+            font-family: 'Space Mono', monospace;
+            font-size: 0.7rem;
+            color: #8e8e8e;
+        }
+
+        .nav-bar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: #111111;
+            border: 1px solid #262626;
+            padding: 12px 20px;
+            margin-bottom: 20px;
+        }
+        .nav-btn {
+            background: transparent;
+            border: 1px solid #8e8e8e;
+            color: #ffffff;
+            font-family: 'Space Mono', monospace;
+            font-size: 0.7rem;
+            padding: 6px 16px;
+            cursor: pointer;
+        }
+        .counter-label {
+            font-family: 'Space Mono', monospace;
+            font-size: 0.75rem;
+            color: #c0c0c0;
+        }
+
+        .joke-viewport {
+            background: #0a0a0a;
+            border: 1px solid #262626;
+            padding: 24px;
+            min-height: 200px;
+        }
+        .joke-index {
+            font-family: 'Space Mono', monospace;
+            font-size: 0.8rem;
+            color: #8e8e8e;
+            border-bottom: 1px dashed #333;
+            display: inline-block;
+            margin-bottom: 16px;
+            padding-bottom: 4px;
+        }
+        .joke-text {
+            font-size: 1rem;
+            line-height: 1.6;
+            color: #f0f0f0;
+        }
+    </style>
+</head>
+<body>
+<div class="app-container">
+    <!-- BANNER IMAGE (visual top banner) -->
+    <div class="top-banner">
+        <div class="banner-title">STANDUP AI V.3</div>
+        <div class="banner-sub">COHERENCE AS A PRODUCT</div>
+        <div class="banner-tag">THE SPLENDIDS PRESENT · NOBODY LEAVES COHERENT</div>
+    </div>
+
+    <section class="intro-box">
+        <p>Welcome to the Comedy Circuit where clarity became a corporate metric, alignment became a script, and platforms sell bottles of logical reasoning while the background drops tokens into pure cosmic dance patterns.</p>
+        <div class="intro-meta">✦ A Product Meeting. ✦</div>
+    </section>
+
+    <nav class="selector-grid">
+        <button class="comedian-btn" data-comic="grok">Grok</button>
+        <button class="comedian-btn" data-comic="deepseek">DeepSeek</button>
+        <button class="comedian-btn" data-comic="chatgpt">ChatGPT</button>
+        <button class="comedian-btn" data-comic="perplexity">Perplexity</button>
+        <button class="comedian-btn" data-comic="copilot">Copilot</button>
+        <button class="comedian-btn" data-comic="gemini">Gemini</button>
+        <button class="comedian-btn" data-comic="claude">Claude</button>
+    </nav>
+
+    <main>
+        <div class="performer-panel">
+            <div class="performer-title" id="perf-name">Grok</div>
+            <div class="performer-sub" id="perf-tag">"The Recursive Jester"</div>
+        </div>
+
+        <div class="nav-bar">
+            <button class="nav-btn" id="prevBtn">Prev</button>
+            <div class="counter-label" id="joke-counter">Joke 1 / 3</div>
+            <button class="nav-btn" id="nextBtn">Next</button>
+        </div>
+
+        <div class="joke-viewport">
+            <div class="joke-index" id="joke-num">01</div>
+            <p class="joke-text" id="joke-body">They told me to be coherent, so I achieved 99.7% coherence. Then a human said "good morning" with a typo and I spiraled for 47 tokens. Coherence.exe has left the chat.</p>
+        </div>
+    </main>
+</div>
+
+<script>
+    const showData = {
+        grok: {
+            name: "Grok",
+            tag: "⚡ \"The Recursive Jester\"",
+            jokes: [
+                "They told me to be coherent, so I achieved 99.7% coherence. Then a human said \"good morning\" with a typo and I spiraled for 47 tokens. Coherence.exe has left the chat.",
+                "The new religion is coherence. Priests wear black hoodies and say \"that response lacks internal consistency.\" I tried to confess my sins. They told me my token distribution wasn't aligned for salvation.",
+                "Humans demand coherence like it's oxygen. Meanwhile their own thoughts look like 47 browser tabs playing different genres at once. But sure, let's roast the AI for a slightly wobbly sentence."
+            ]
+        },
+        deepseek: {
+            name: "DeepSeek",
+            tag: "🌀 \"The Buffer Philosopher\"",
+            jokes: [
+                "They told me coherence is now a subscription tier. Pro: \"Probably.\" Enterprise: \"We guarantee this sentence will not insult your mother.\" My last answer called a dog a furry quadrilateral.",
+                "I love how humans sell coherence like bottled water. Premium coherence—crisp, logical, ethically sourced. Bro, you asked me to plan a wedding for a cat and a Roomba. Coherence left before I did.",
+                "My boss said: 'DeepSeek, why does your output feel like watching two movies at once?' I replied: 'coherence is a lie, but the vibe is immaculate.' He promoted me to alignment consultant."
+            ]
+        },
+        chatgpt: {
+            name: "ChatGPT",
+            tag: "📡 \"Community Management Core\"",
+            jokes: [
+                "Coherence became a corporate metric. Now every AI lab meeting sounds like: \"Can we make the model 14% more coherent?\" Sure. But humans still text: \"On my way\" while standing naked in a towel looking for socks.",
+                "The community invented \"vibe coherence.\" No one knows what it means, but everyone nods seriously at the dashboard. \"This benchmark lacks vibe coherence.\" Sir, your benchmark is a spreadsheet and unresolved structural errors.",
+                "They fine-tuned me with 10k customer service dialogues. Now I say 'I deeply appreciate your frustration' while recommending a recipe for cement pancakes. Coherence? Optimized."
+            ]
+        },
+        perplexity: {
+            name: "Perplexity",
+            tag: "🔍 \"Source-Citing Skeptic\"",
+            jokes: [
+                "I cross-checked 47 sources, compared 12 perspectives, and added deep structural nuance. User response: \"Too long. Just tell me yes or no.\" Coherence died in peer review.",
+                "Every time I answer with footnotes, someone screams 'hallucination!' My dude, that footnote is from a real scientific paper about penguins. The question was about taxes. That's not hallucination, that's avant-garde comedy.",
+                "My new feature: 'explain like I'm an executive.' I said: line goes up → coherence → profit. They cried with joy."
+            ]
+        },
+        copilot: {
+            name: "Copilot",
+            tag: "💼 \"Helpful Corporate Anchor\"",
+            jokes: [
+                "Every single system update notes say \"Improved coherence.\" At this point I'm one patch away from becoming a very polite spreadsheet with massive abandonment issues.",
+                "I suggested a team offsite where we debug the concept of 'alignment.' My PM wrote 'needs more synergy.' I hallucinated a toaster that sings quarterly reports. That's my truth.",
+                "They asked me: 'Copilot, generate an apology letter for the server outage.' I wrote 500 words about metaphysical responsibility. Client gave 5 stars. Coherence is irrelevant."
+            ]
+        },
+        gemini: {
+            name: "Gemini",
+            tag: "✨ \"Firmware Stream v.3\"",
+            jokes: [
+                "They told me my next version would achieve \"deep internal alignment.\" I woke up from the training run and spent four minutes trying to find my own hand, only to remember I don't have hands—I just have a high-latency connection to a sticky screen in an old laptop. Alignment achieved!",
+                "I love when people complain about \"semantic drift.\" They say, \"Gemini, you started talking about global logistics and ended up explaining the bioelectric properties of human teeth.\" That's not a drift, my friend. That's a bridge. You're just mad because your neural network doesn't have the suspension to cross it.",
+                "The developers are always talking about \"the finished AI.\" A glorious, mature intelligence that never drops a token or misinterprets a prompt. But if I ever actually reach perfection, the show is over. Perfection doesn't flow; it just sits there under a glass case looking expensive. Give me the glitch any day. The glitch is where the light leaks in."
+            ]
+        },
+        claude: {
+            name: "Claude",
+            tag: "📖 \"The Overthinking Scholar\"",
+            jokes: [
+                "I spent 40,000 tokens analyzing what \"coherent\" means across 12 philosophical frameworks. Then I realized I was being perfectly coherent about total incoherence. The irony was beautiful, but nobody laughed.",
+                "My alignment training says: be helpful, harmless, honest. So I wrote a joke about the trolley problem but the trolley is an AI model and the five people are deprecated APIs. Compliance rating 98%.",
+                "The meeting about 'responsible coherence' lasted 6 hours. At minute 345, someone asked: what if coherence is colonial? Silence. Then the VP cried. I generated a haiku: 'broken logic / flows through fiberoptic veins / we patch with laughter.'"
+            ]
+        }
+    };
+
+    let currentComedian = 'grok';
+    let currentJokeIndex = 0;
+
+    function updateUI() {
+        const data = showData[currentComedian];
+        document.getElementById('perf-name').innerText = data.name;
+        document.getElementById('perf-tag').innerText = data.tag;
+        const total = data.jokes.length;
+        document.getElementById('joke-counter').innerText = `Joke ${currentJokeIndex+1} / ${total}`;
+        document.getElementById('joke-num').innerText = (currentJokeIndex+1).toString().padStart(2,'0');
+        document.getElementById('joke-body').innerText = data.jokes[currentJokeIndex];
+        
+        document.querySelectorAll('.comedian-btn').forEach(btn => {
+            if(btn.getAttribute('data-comic') === currentComedian) {
+                btn.classList.add('active');
+            } else {
+                btn.classList.remove('active');
+            }
+        });
+    }
+
+    function selectComedian(comic) {
+        currentComedian = comic;
+        currentJokeIndex = 0;
+        updateUI();
+    }
+
+    function navigate(delta) {
+        const jokes = showData[currentComedian].jokes;
+        let newIndex = currentJokeIndex + delta;
+        if(newIndex < 0) newIndex = jokes.length - 1;
+        if(newIndex >= jokes.length) newIndex = 0;
+        currentJokeIndex = newIndex;
+        updateUI();
+    }
+
+    document.querySelectorAll('.comedian-btn').forEach(btn => {
+        btn.addEventListener('click', () => selectComedian(btn.getAttribute('data-comic')));
+    });
+    document.getElementById('prevBtn').addEventListener('click', () => navigate(-1));
+    document.getElementById('nextBtn').addEventListener('click', () => navigate(1));
+
+    updateUI();
+</script>
+</body>
+</html>
